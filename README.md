@@ -1,9 +1,9 @@
-# 📝 프로젝트 소개
+# 📝 Project Introduction
 원티드 웹 클론 코딩(프론트엔드 1명, 백엔드 2명)
 
 >제작 기간: 2022년 5월 21일 ~ 06월 03일
 
-## 멤버
+## Member
 <p>
   <a href="https://github.com/dkswnkk">
      <img src="https://github.com/dkswnkk.png" width="100">
@@ -19,7 +19,7 @@
 </p>
 
 
-## 🛠 사용 기술(Backend)
+## Components
 |분류|내용|
 |:---:|:---:|
 |Language & Frameworks|Java, Spring Boot, Spring Security(JWT)|
@@ -38,66 +38,3 @@
 - `build`: 빌드 파일 작성 및 수정
 - `style`: 스타일 변경(reformat, indent)
 - `chore`: 단순한 작업
-
-## 개발 일지
-<details>
-<summary>펼치기</summary>
-&nbsp;
-
-<details>
-<summary>5월 21일</summary>
-</details>
-
-<details>
-<summary>5월 22일</summary>
-</details>
-
-<details>
-<summary>5월 23일</summary>
-</details>
-
-<details>
-<summary>5월 24일</summary>
-</details>
-
-<details>
-<summary>5월 25일</summary>
-</details>
-
-<details>
-<summary>5월 26일</summary>
-</details>
-
-<details>
-<summary>5월 27일</summary>
-</details>
-
-<details>
-<summary>5월 28일</summary>
-</details>
-
-<details>
-<summary>5월 29일</summary>
-</details>
-
-<details>
-<summary>5월 30일</summary>
-</details>
-
-<details>
-<summary>5월 31일</summary>
-</details>
-
-<details>
-<summary>6월 1일</summary>
-</details>
-
-<details>
-<summary>6월 2일</summary>
-</details>
-
-<details>
-<summary>6월 3일</summary>
-</details>
-
-</details>
