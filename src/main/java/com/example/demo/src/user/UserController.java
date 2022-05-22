@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.example.demo.config.BaseException;
@@ -17,8 +18,8 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
 @RequestMapping("/app/users")
+@Slf4j
 public class UserController {
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private final UserProvider userProvider;
@@ -27,38 +28,13 @@ public class UserController {
     @Autowired
     private final JwtService jwtService;
 
-
-
-
     public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
         this.userProvider = userProvider;
         this.userService = userService;
         this.jwtService = jwtService;
     }
 
-    /**
-     * 회원 조회 API
-     * [GET] /users
-     * 회원 번호 및 이메일 검색 조회 API
-     * [GET] /users? Email=
-     * @return BaseResponse<List<GetUserRes>>
-     */
-    //Query String
-    @ResponseBody
-    @GetMapping("") // (GET) 127.0.0.1:9000/app/users
-    public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
-        try{
-            if(Email == null){
-                List<GetUserRes> getUsersRes = userProvider.getUsers();
-                return new BaseResponse<>(getUsersRes);
-            }
-            // Get Users
-            List<GetUserRes> getUsersRes = userProvider.getUsersByEmail(Email);
-            return new BaseResponse<>(getUsersRes);
-        } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
-        }
-    }
+
 
     /**
      * 회원 1명 조회 API
@@ -79,14 +55,9 @@ public class UserController {
 
     }
 
-    /**
-     * 회원가입 API
-     * [POST] /users
-     * @return BaseResponse<PostUserRes>
-     */
-    // Body
+
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/sign-up")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         if(postUserReq.getEmail() == null){
@@ -103,6 +74,7 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     /**
      * 로그인 API
      * [POST] /users/logIn

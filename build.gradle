@@ -36,6 +36,7 @@ dependencies {
 
     // DB
     runtimeOnly ('mysql:mysql-connector-java') //mysql8
+    runtimeOnly 'com.h2database:h2'
     //runtimeOnly 'mysql:mysql-connector-java:5.1.47' //mysql5
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
