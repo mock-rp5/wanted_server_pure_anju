@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import static com.example.demo.config.BaseResponseStatus.SUCCESS;
 
-@Getter
+
+@Data
 @AllArgsConstructor
 @JsonPropertyOrder({"isSuccess", "code", "message", "result"})
 public class BaseResponse<T> {
@@ -25,6 +28,13 @@ public class BaseResponse<T> {
         this.message = SUCCESS.getMessage();
         this.code = SUCCESS.getCode();
         this.result = result;
+    }
+
+    // 커스텀 한 오류 BaseResponse 메세지
+    public BaseResponse(String errorMessage, int code) {
+        this.isSuccess = false;
+        this.message = errorMessage;
+        this.code = code;
     }
 
     // 요청에 실패한 경우

@@ -40,6 +40,7 @@ dependencies {
     //runtimeOnly 'mysql:mysql-connector-java:5.1.47' //mysql5
     implementation ('org.springframework.boot:spring-boot-starter-jdbc')
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 
 
