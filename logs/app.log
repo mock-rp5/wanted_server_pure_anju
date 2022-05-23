@@ -1,12 +1,1 @@
-02:36:42.987 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:36.184 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:37.353 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:38.220 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:48.636 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:50.981 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-02:38:52.969 WARN  [File:CustomExceptionHandler.java] [Func:handleMethodArgumentNotValid] [Line:17] [Message:zz]- zz
-12:56:33.570 WARN  [File:UserDao.java] [Func:getUser] [Line:41] [Message:?]- ?
-12:56:56.040 WARN  [File:UserDao.java] [Func:getUser] [Line:41] [Message:?]- ?
-12:56:57.212 WARN  [File:UserDao.java] [Func:getUser] [Line:41] [Message:?]- ?
-12:56:57.971 WARN  [File:UserDao.java] [Func:getUser] [Line:41] [Message:?]- ?
-12:56:59.316 WARN  [File:UserDao.java] [Func:getUser] [Line:41] [Message:?]- ?
+
