@@ -13,5 +13,4 @@ public class GetUserRes {
     private String email;
     private String phoneNumber;
     private Boolean pushNotification;
-
 }
