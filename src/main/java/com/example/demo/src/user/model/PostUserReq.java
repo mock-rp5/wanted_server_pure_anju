@@ -13,7 +13,7 @@ public class PostUserReq {
     @NotBlank(message = "프로필 사진을 입력해 주세요. 없다면 기본 값으로 넣어주세요.")
     private String profileImage;
 
-    @Email
+    @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
     @NotBlank

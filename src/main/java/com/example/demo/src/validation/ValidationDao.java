@@ -16,10 +16,13 @@ public class ValidationDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+
     public Boolean checkEmail(PostEmailReq postEmailReq) {
         String checkEmailQuery = "select exists(select User.email from User where email = ? AND User.status = true)";
         return this.jdbcTemplate.queryForObject(checkEmailQuery,
                 Boolean.class,
                 postEmailReq.getEmail());
     }
+
+
 }

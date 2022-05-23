@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,20 +24,13 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 public class UserController {
 
 
-    //    private final UserProvider userProvider;
+    private final UserProvider userProvider;
     private final UserService userService;
-
     private final JwtService jwtService;
 
-//    @Autowired
-//    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService){
-//        this.userProvider = userProvider;
-//        this.userService = userService;
-//        this.jwtService = jwtService;
-//    }
-
     @Autowired
-    public UserController(UserService userService, JwtService jwtService) {
+    public UserController(UserProvider userProvider, UserService userService, JwtService jwtService) {
+        this.userProvider = userProvider;
         this.userService = userService;
         this.jwtService = jwtService;
     }
@@ -46,7 +40,6 @@ public class UserController {
      * 회원가입 API
      * [post] /app/users/
      */
-    @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@Valid @RequestBody PostUserReq postUserReq) {
         try {
@@ -56,23 +49,32 @@ public class UserController {
         }
     }
 
-//    /**
-//     * 로그인 API
-//     * [POST] /users/logIn
-//     * @return BaseResponse<PostLoginRes>
-//     */
-//    @ResponseBody
-//    @PostMapping("/logIn")
-//    public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
-//        try{
-//            t// TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
-//            //            // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validaion 처리도 해주셔야합니다.
-//            PostLoginRes postLoginRes = userProvider.logIn(postLoginReq);
-//            return new BaseResponse<>(postLoginRes);
-//        } catch (BaseException exception){
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
+    /**
+     * 회원정보 조회API
+     * [get] /app/users/
+     */
+    @GetMapping("/{userIdx}")
+    public BaseResponse<GetUserRes> getUser(@PathVariable Long userIdx) {
+        try {
+            return new BaseResponse<>(userProvider.getUser(userIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
+    /**
+     * 로그인 API
+     * [post] /app/users/login
+     */
+    @PostMapping("/sign-in")
+    public BaseResponse<GetUserRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+        try {
+            return new BaseResponse<>(userProvider.logIn(postLoginReq));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 //
 //    /**
 //     * 유저정보변경 API
