@@ -34,11 +34,11 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class);
     }
 
-    public GetUserRes getUser(Long userIdx) {
+    public UserDto.GetUserRes getUser(Long userIdx) {
         String getUserQuery = "select * from User where userIdx = ? AND status = true";
         Object[] getUserParams = new Object[]{userIdx};
         List<Map<String, Object>> user = this.jdbcTemplate.queryForList(getUserQuery, getUserParams);
-        return GetUserRes.builder()
+        return UserDto.GetUserRes.builder()
                 .userIdx((Long) user.get(0).get("userIdx"))
                 .jwt(jwtService.createJwt((Long) user.get(0).get("userIdx")))
                 .profileImage((String) user.get(0).get("profileImage"))

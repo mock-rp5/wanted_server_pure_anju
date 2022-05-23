@@ -41,7 +41,7 @@ public class UserController {
      * [post] /app/users/
      */
     @PostMapping("")
-    public BaseResponse<GetUserRes> createUser(@Valid @RequestBody PostUserReq postUserReq) {
+    public BaseResponse<UserDto.PostUserRes> createUser(@Valid @RequestBody PostUserReq postUserReq) {
         try {
             return new BaseResponse<>(userService.createUser(postUserReq));
         } catch (BaseException exception) {
@@ -54,7 +54,7 @@ public class UserController {
      * [get] /app/users/
      */
     @GetMapping("/{userIdx}")
-    public BaseResponse<GetUserRes> getUser(@PathVariable Long userIdx) {
+    public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
         try {
             return new BaseResponse<>(userProvider.getUser(userIdx));
         } catch (BaseException exception) {
@@ -68,7 +68,7 @@ public class UserController {
      * [post] /app/users/login
      */
     @PostMapping("/sign-in")
-    public BaseResponse<GetUserRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+    public BaseResponse<UserDto.PostLoginUserRes> logIn(@RequestBody PostLoginReq postLoginReq) {
         try {
             return new BaseResponse<>(userProvider.logIn(postLoginReq));
         } catch (BaseException exception) {

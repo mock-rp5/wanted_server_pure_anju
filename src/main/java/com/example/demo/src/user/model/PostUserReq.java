@@ -14,6 +14,7 @@ public class PostUserReq {
     private String profileImage;
 
     @Email(message = "이메일 형식이 올바르지 않습니다.")
+    @NotBlank(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
     @NotBlank
@@ -28,16 +29,17 @@ public class PostUserReq {
 
     @NotNull(message = "개인정보 동의 체크를 해주세요.")
     private Boolean privacyPolicyAgreement;
-    @NotNull
+
+    @NotNull(message = "알림 수신 여부를 체크해 주세요.")
     private Boolean pushNotification;
 
-    @NotNull(message = "직군을 선택해 주세요.")
+    @NotBlank(message = "직군을 선택해 주세요.")
     private String jobGroup;
 
-    @NotNull(message = "직무를 선택해 주세요")
+    @NotBlank(message = "직무를 선택해 주세요")
     private String duty;
 
-    @NotNull(message = "경력을 선택해 주세요.")
+    @NotBlank(message = "경력을 선택해 주세요.")
     private int experience;
 
 

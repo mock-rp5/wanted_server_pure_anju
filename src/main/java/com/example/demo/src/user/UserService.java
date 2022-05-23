@@ -35,7 +35,7 @@ public class UserService {
 
 
     //POST
-    public GetUserRes createUser(PostUserReq postUserReq) throws BaseException {
+    public UserDto.PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
         String pwd;
         try {
             //암호화
@@ -46,7 +46,7 @@ public class UserService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
         Long userIdx = userDao.createUser(postUserReq);
-      
+        String jwt = jwtService.createJwt(userIdx);
         PutSpecializedFieldReq putSpecializedFieldReq = PutSpecializedFieldReq.builder()
                 .userIdx(userIdx)
                 .jobGroup(postUserReq.getJobGroup())
@@ -54,7 +54,8 @@ public class UserService {
                 .experience(postUserReq.getExperience())
                 .build();
         profileDao.modifyProfileSpecializedField(putSpecializedFieldReq);
-        return userDao.getUser(userIdx);
+
+        return new UserDto.PostUserRes(jwt, userIdx);
     }
 
 

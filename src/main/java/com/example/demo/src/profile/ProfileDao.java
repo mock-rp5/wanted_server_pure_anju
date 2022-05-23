@@ -20,7 +20,7 @@ public class ProfileDao {
 
     // 전분 분야 업데이트
     public void modifyProfileSpecializedField(PutSpecializedFieldReq putSpecializedFieldReq) {
-        String modifyProfileSpecializedField = "INSERT INTO SpecializedField (userIdx, jobGroup, duty, experience, presentSalary, skill) values (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE jobGroup = ?, duty = ?, experience = ?, presentSalary = ?, skill =?;";
+        String modifyProfileSpecializedField = "INSERT INTO SpecializedField (userIdx, jobGroup, duty, experience, presentSalary, skill) values (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE jobGroup = ?, duty = ?, experience = ?, presentSalary = ?, skill =?";
         Object[] modifyProfileSpecializedFieldParams = new Object[]{putSpecializedFieldReq.getUserIdx(), putSpecializedFieldReq.getJobGroup(), putSpecializedFieldReq.getDuty(), putSpecializedFieldReq.getExperience(), putSpecializedFieldReq.getPresentSalary(), putSpecializedFieldReq.getSkill(),
                putSpecializedFieldReq.getJobGroup(), putSpecializedFieldReq.getDuty(), putSpecializedFieldReq.getExperience(), putSpecializedFieldReq.getPresentSalary(), putSpecializedFieldReq.getSkill()
         };
