@@ -36,7 +36,6 @@ public class UserService {
 
     //POST
     public GetUserRes createUser(PostUserReq postUserReq) throws BaseException {
-
         String pwd;
         try {
             //암호화
@@ -47,6 +46,7 @@ public class UserService {
             throw new BaseException(PASSWORD_ENCRYPTION_ERROR);
         }
         Long userIdx = userDao.createUser(postUserReq);
+      
         PutSpecializedFieldReq putSpecializedFieldReq = PutSpecializedFieldReq.builder()
                 .userIdx(userIdx)
                 .jobGroup(postUserReq.getJobGroup())
