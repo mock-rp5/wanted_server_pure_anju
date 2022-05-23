@@ -41,7 +41,7 @@ public class UserController {
      * [post] /app/users/
      */
     @PostMapping("")
-    public BaseResponse<PostUserRes> createUser(@Valid @RequestBody PostUserReq postUserReq) {
+    public BaseResponse<GetUserRes> createUser(@Valid @RequestBody PostUserReq postUserReq) {
         try {
             return new BaseResponse<>(userService.createUser(postUserReq));
         } catch (BaseException exception) {
