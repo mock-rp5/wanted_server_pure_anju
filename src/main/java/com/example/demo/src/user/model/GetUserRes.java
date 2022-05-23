@@ -1,17 +1,17 @@
 package com.example.demo.src.user.model;
 
+import lombok.Builder;
+import lombok.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@Builder
 public class GetUserRes {
-    private int userIdx;
-    private String userName;
-    private String ID;
+    private Long userIdx;
+    private String jwt;
+    private String profileImage;
+    private String name;
     private String email;
-    private String password;
+    private String phoneNumber;
+    private Boolean pushNotification;
+
 }

@@ -11,6 +11,7 @@ public enum BaseResponseStatus {
      * 1000 : 요청 성공
      */
     SUCCESS(true, 1000, "요청에 성공하였습니다."),
+    AVAILABLE_EMAIL(true, 1001, "사용 가능한 이메일입니다."),
 
 
     /**
