@@ -21,7 +21,7 @@
 
 ## ERD
 
-<img width="500" height="300" src="https://user-images.githubusercontent.com/74492426/169699121-91a74620-a54b-4e39-b706-37b0f8892b10.png">
+<img width="500" height="300" src="https://user-images.githubusercontent.com/70481813/169830513-aa998edd-9219-4cc1-9015-312bd42c0765.png">
 
 ## Components
 |분류|내용|
