@@ -22,7 +22,7 @@ public class EmploymentProvider {
         this.employmentDao = employmentDao;
     }
 
-    public GetEmploymentRes getEmployments(int userIdx, String country, String sort, int years1, int years2) throws BaseException {
+    public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, int years1, int years2) throws BaseException {
         try {
             GetEmploymentRes getEmploymentRes = employmentDao.getEmployments(userIdx, country, sort, years1, years2);
             return getEmploymentRes;

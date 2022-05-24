@@ -38,8 +38,8 @@ public class EmploymentController {
                                                          @RequestParam("years1") int years1, @RequestParam("years2") int years2) {
 
         try{
-
-            GetEmploymentRes getEmploymentRes = employmentProvider.getEmployments(1, country, sort, years1, years2);
+            Long userIdx = jwtService.getUserIdx();
+            GetEmploymentRes getEmploymentRes = employmentProvider.getEmployments(userIdx, country, sort, years1, years2);
             return new BaseResponse<>(getEmploymentRes);
 
 
