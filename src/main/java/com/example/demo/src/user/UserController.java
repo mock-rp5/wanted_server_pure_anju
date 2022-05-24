@@ -53,14 +53,16 @@ public class UserController {
      * 회원정보 조회API
      * [get] /app/users/
      */
-//    @GetMapping("/{userIdx}")
-//    public BaseResponse<GetUserRes> getUser(@PathVariable Long userIdx) {
-//        try {
-//            return new BaseResponse<>(userProvider.getUser(userIdx));
-//        } catch (BaseException exception) {
-//            return new BaseResponse<>(exception.getStatus());
-//        }
-//    }
+
+    @GetMapping("/{userIdx}")
+    public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
+        try {
+            return new BaseResponse<>(userProvider.getUser(userIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
 
     /**
