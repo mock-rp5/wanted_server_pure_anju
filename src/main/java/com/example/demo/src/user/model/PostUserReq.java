@@ -22,6 +22,7 @@ public class PostUserReq {
     private String name;
 
     @NotBlank(message = "휴대번호는 -를 제외한 11자리를 입력해 주세요.")
+    @Size(min = 11, max = 11)
     private String phoneNumber;
 
     @NotBlank(message = "패스워드에 공백이 포함되어 있는지 확인해 주세요.")
