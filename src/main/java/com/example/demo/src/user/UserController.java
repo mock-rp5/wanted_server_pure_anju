@@ -57,8 +57,7 @@ public class UserController {
     @GetMapping("")
     public BaseResponse<UserDto.GetUserRes> getUser() {
         try {
-            Long userIdx = jwtService.getUserIdx();
-            log.warn("{}", userIdx);
+            Long userIdx = jwtService.getUserIdx();;
             return new BaseResponse<>(userProvider.getUser(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
@@ -71,7 +70,7 @@ public class UserController {
      * [post] /app/users/login
      */
     @PostMapping("/sign-in")
-    public BaseResponse<UserDto.PostLoginUserRes> logIn(@RequestBody PostLoginReq postLoginReq) {
+    public BaseResponse<UserDto.PostLoginUserRes> logIn(@Valid @RequestBody PostLoginReq postLoginReq) {
         try {
             return new BaseResponse<>(userProvider.logIn(postLoginReq));
         } catch (BaseException exception) {
