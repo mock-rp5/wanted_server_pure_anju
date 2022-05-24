@@ -1,5 +1,6 @@
 package com.example.demo.src.resume;
 
+import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
 import com.example.demo.src.validation.model.email.PostEmailReq;
@@ -8,7 +9,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Repository
 public class ResumeDao {
@@ -81,6 +87,26 @@ public class ResumeDao {
         return PostResumeRes.builder()
                 .resumeIdx(resumeIdx)
                 .build();
+    }
+
+
+    public List<GetResumeRes.RetrieveAllResume> getRetrieveAllResume(Long userIdx) {
+        String retrieveAllResumeQuery = "select * from Resume where userIdx = ? and status = 'ACTIVE' order by updatedAt desc";
+        Object[] retrieveAllResumeParams = new Object[]{userIdx};
+        List<Map<String, Object>> resumeList = this.jdbcTemplate.queryForList(retrieveAllResumeQuery, retrieveAllResumeParams);
+        List<GetResumeRes.RetrieveAllResume> retrieveAllResumeList = new ArrayList<>();
+        System.out.println(resumeList.get(0).get("updatedAt").toString());
+        for (Map<String, Object> resume : resumeList) {
+            retrieveAllResumeList.add(
+                    GetResumeRes.RetrieveAllResume.builder()
+                            .title((String) resume.get("title"))
+                            .isCompleted((Boolean) resume.get("isCompleted"))
+                            .isDefaulted((Boolean) resume.get("isDefaulted"))
+                            .updatedAt( LocalDate.parse(Objects.toString(resume.get("updatedAt")).substring(0,10)))
+                            .build()
+            );
+        }
+        return retrieveAllResumeList;
     }
 
 }
