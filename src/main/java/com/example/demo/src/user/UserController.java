@@ -53,6 +53,7 @@ public class UserController {
      * 회원정보 조회API
      * [get] /app/users/
      */
+
     @GetMapping("/{userIdx}")
     public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
         try {
@@ -61,6 +62,7 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
 
 
     /**
