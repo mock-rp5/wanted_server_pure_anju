@@ -11,6 +11,7 @@ import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -53,9 +54,11 @@ public class UserController {
      * 회원정보 조회API
      * [get] /app/users/
      */
-    @GetMapping("/{userIdx}")
-    public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
+    @GetMapping("")
+    public BaseResponse<UserDto.GetUserRes> getUser() {
         try {
+            Long userIdx = jwtService.getUserIdx();
+            log.warn("{}", userIdx);
             return new BaseResponse<>(userProvider.getUser(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
