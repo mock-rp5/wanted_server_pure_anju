@@ -3,3 +3,5 @@ yml
 /build
 /.idea
 .DS_Store
+*.class
+/out/

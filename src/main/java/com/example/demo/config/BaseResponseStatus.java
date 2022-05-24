@@ -14,6 +14,7 @@ public enum BaseResponseStatus {
     AVAILABLE_EMAIL(true, 1001, "사용 가능한 이메일입니다."),
 
 
+
     /**
      * 2000 : Request 오류
      */
