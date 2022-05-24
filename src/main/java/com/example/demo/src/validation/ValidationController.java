@@ -4,12 +4,16 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.validation.model.email.PostEmailReq;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
+@Slf4j
 @RestController
 @RequestMapping("/app/validation")
 public class ValidationController {
@@ -21,9 +25,10 @@ public class ValidationController {
         this.validationProvider = validationProvider;
     }
 
-    @ResponseBody
+
+
     @PostMapping("/email")
-    public BaseResponse<BaseResponseStatus> checkEmail(@RequestBody PostEmailReq postEmailReq) {
+    public BaseResponse<BaseResponseStatus> checkEmail(@Valid @RequestBody PostEmailReq postEmailReq) {
         if (postEmailReq.getEmail() == null) {
             return new BaseResponse<>(POST_USERS_EMPTY_EMAIL);
         }
@@ -37,4 +42,6 @@ public class ValidationController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+
 }

@@ -18,7 +18,7 @@ public class ValidationDao {
 
 
     public Boolean checkEmail(PostEmailReq postEmailReq) {
-        String checkEmailQuery = "select exists(select User.email from User where email = ? AND User.status = true)";
+        String checkEmailQuery = "select exists(select email from User where email = ? AND status = 'ACTIVE')";
         return this.jdbcTemplate.queryForObject(checkEmailQuery,
                 Boolean.class,
                 postEmailReq.getEmail());

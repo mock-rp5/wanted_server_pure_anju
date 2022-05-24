@@ -40,7 +40,7 @@ public class UserProvider {
     }
 
     // 회원 정보 조회
-    public GetUserRes getUser(Long userIdx) throws BaseException {
+    public UserDto.GetUserRes getUser(Long userIdx) throws BaseException {
         try {
             return userDao.getUser(userIdx);
         } catch (Exception exception) {
@@ -49,7 +49,7 @@ public class UserProvider {
     }
 
     // 로그인
-    public GetUserRes logIn(PostLoginReq postLoginReq) throws BaseException {
+    public UserDto.PostLoginUserRes logIn(PostLoginReq postLoginReq) throws BaseException {
         PostEmailReq postEmailReq = PostEmailReq.builder()
                 .email(postLoginReq.getEmail())
                 .build();
@@ -70,7 +70,7 @@ public class UserProvider {
         if (user.getPassword().equals(encryptPwd)) {
             Long userIdx = user.getUserIdx();
             String jwt = jwtService.createJwt(userIdx);
-            return userDao.getUser(userIdx);
+            return new UserDto.PostLoginUserRes(jwt, userIdx);
         } else {
             throw new BaseException(FAILED_TO_LOGIN);
         }

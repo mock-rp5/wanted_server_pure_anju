@@ -34,11 +34,11 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class);
     }
 
-    public GetUserRes getUser(Long userIdx) {
-        String getUserQuery = "select * from User where userIdx = ? AND status = true";
+    public UserDto.GetUserRes getUser(Long userIdx) {
+        String getUserQuery = "select * from User where userIdx = ? AND status = 'ACTIVE'";
         Object[] getUserParams = new Object[]{userIdx};
         List<Map<String, Object>> user = this.jdbcTemplate.queryForList(getUserQuery, getUserParams);
-        return GetUserRes.builder()
+        return UserDto.GetUserRes.builder()
                 .userIdx((Long) user.get(0).get("userIdx"))
                 .jwt(jwtService.createJwt((Long) user.get(0).get("userIdx")))
                 .profileImage((String) user.get(0).get("profileImage"))
@@ -50,7 +50,7 @@ public class UserDao {
     }
 
     public User getPwd(PostLoginReq postLoginReq) {
-        String getPwdQuery = "select userIdx, email, password from User where email = ? AND status = true";
+        String getPwdQuery = "select userIdx, email, password from User where email = ? AND status = 'ACTIVE'";
         String getPwdParams = postLoginReq.getEmail();
         return this.jdbcTemplate.queryForObject(getPwdQuery,
                 (rs, rowNum) -> new User(
