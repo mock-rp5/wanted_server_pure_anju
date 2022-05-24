@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import java.util.List;
-
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
@@ -37,6 +36,12 @@ public class ResumeController {
      * 이력서 작성 API
      * [post] /app/resume
      */
+    @Autowired
+    public ResumeController(JwtService jwtService, ResumeService resumeService) {
+        this.jwtService = jwtService;
+        this.resumeService = resumeService;
+    }
+
     @PostMapping("")
     public BaseResponse<PostResumeRes> postResume(@Valid @RequestBody PostResumeReq postResumeReq) {
         try {
@@ -60,5 +65,4 @@ public class ResumeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
 }

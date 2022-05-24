@@ -1,5 +1,6 @@
 package com.example.demo.src.resume;
 
+
 import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.List;
 
 @Repository
 public class ResumeDao {
@@ -89,7 +91,6 @@ public class ResumeDao {
                 .build();
     }
 
-
     public List<GetResumeRes.RetrieveAllResume> getRetrieveAllResume(Long userIdx) {
         String retrieveAllResumeQuery = "select * from Resume where userIdx = ? and status = 'ACTIVE' order by updatedAt desc";
         Object[] retrieveAllResumeParams = new Object[]{userIdx};
@@ -108,5 +109,4 @@ public class ResumeDao {
         }
         return retrieveAllResumeList;
     }
-
 }
