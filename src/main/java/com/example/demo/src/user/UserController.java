@@ -54,7 +54,7 @@ public class UserController {
      * [get] /app/users/
      */
     @GetMapping("/{userIdx}")
-    public BaseResponse<GetUserRes> getUser(@PathVariable Long userIdx) {
+    public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
         try {
             return new BaseResponse<>(userProvider.getUser(userIdx));
         } catch (BaseException exception) {
