@@ -26,7 +26,10 @@ public class ValidationController {
     }
 
 
-
+    /**
+     * 이메일 유효성 검증 API
+     * [post] /app/validation
+     */
     @PostMapping("/email")
     public BaseResponse<BaseResponseStatus> checkEmail(@Valid @RequestBody PostEmailReq postEmailReq) {
         if (postEmailReq.getEmail() == null) {
