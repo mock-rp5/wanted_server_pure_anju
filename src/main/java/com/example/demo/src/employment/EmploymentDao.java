@@ -24,7 +24,15 @@ public class EmploymentDao {
         String getCompanyQuery = "select C.companyIdx, C.logo, CI.imgUrl, C.companyName, E.countPosition from Company as C\n" +
                 "left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
                 "left join (select companyIdx, count(*) as countPosition from Employment group by companyIdx) E on E.companyIdx = C.companyIdx\n" +
+
                 "where CI.isThumbnail = true and C.isActivited = " + sort;
+
+
+
+
+
+
+
 
 
         List<Company> companyList = this.jdbcTemplate.query(getCompanyQuery,
