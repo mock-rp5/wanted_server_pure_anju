@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.config.BaseResponseStatus.DATABASE_ERROR;
-import static com.example.demo.config.BaseResponseStatus.PASSWORD_ENCRYPTION_ERROR;
+import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
 @Transactional(readOnly = false)
@@ -54,6 +53,15 @@ public class ResumeService {
     public void updateResumeTitle(Long resumeIdx, PatchResumeReq.UpdateResumeTitleReq updateResumeTitleReq) throws BaseException {
         try {
             resumeDao.updateResumeTitle(resumeIdx, updateResumeTitleReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 기본 이력서로 변경
+    public void updateResumeDefault(Long resumeIdx) throws BaseException {
+        try {
+            resumeDao.updateResumeDefault(resumeIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

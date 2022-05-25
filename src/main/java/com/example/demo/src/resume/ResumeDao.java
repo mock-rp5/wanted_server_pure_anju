@@ -4,11 +4,9 @@ import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
-import com.example.demo.src.validation.model.email.PostEmailReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -261,5 +259,12 @@ public class ResumeDao {
         String updateResumeTitleQuery = "update Resume set title = ? where resumeIdx = ?";
         Object[] updateResumeTitleParams = new Object[]{updateResumeTitleReq.getTitle(), resumeIdx};
         this.jdbcTemplate.update(updateResumeTitleQuery, updateResumeTitleParams);
+    }
+
+    // 기본 이력서로 변경
+    public void updateResumeDefault(Long resumeIdx) {
+        String updateResumeDefaultQuery = "update Resume set isDefaulted = CASE WHEN resumeIdx = ? then true ELSE isDefaulted = false END";
+        Object[] updateResumeDefaultParams = new Object[]{resumeIdx};
+        this.jdbcTemplate.update(updateResumeDefaultQuery, updateResumeDefaultParams);
     }
 }
