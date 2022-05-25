@@ -36,12 +36,6 @@ public class ResumeController {
      * 이력서 작성 API
      * [post] /app/resume
      */
-    @Autowired
-    public ResumeController(JwtService jwtService, ResumeService resumeService) {
-        this.jwtService = jwtService;
-        this.resumeService = resumeService;
-    }
-
     @PostMapping("")
     public BaseResponse<PostResumeRes> postResume(@Valid @RequestBody PostResumeReq postResumeReq) {
         try {
