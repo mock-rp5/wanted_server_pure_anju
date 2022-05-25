@@ -12,5 +12,5 @@ public class Company {
     private String logo;
     private String imgUrl;
     private String companyName;
-    private int countPostion;
+    private int countPosition;
 }
