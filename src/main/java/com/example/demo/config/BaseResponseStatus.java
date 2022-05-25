@@ -33,6 +33,10 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
 
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
+
 
     /**
      * 3000 : Response 오류
