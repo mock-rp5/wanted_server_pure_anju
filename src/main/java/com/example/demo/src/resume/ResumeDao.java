@@ -1,14 +1,12 @@
 package com.example.demo.src.resume;
 
-import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
+import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
-import com.example.demo.src.validation.model.email.PostEmailReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -254,5 +252,19 @@ public class ResumeDao {
         String deleteResumeQuery = "update Resume set status = 'NOTACTIVE' where resumeIdx = ?;";
         Object[] deleteResumeQueryParams = new Object[]{resumeIdx};
         this.jdbcTemplate.update(deleteResumeQuery, deleteResumeQueryParams);
+    }
+
+    // 이력서 이름 변경
+    public void updateResumeTitle(Long resumeIdx, PatchResumeReq.UpdateResumeTitleReq updateResumeTitleReq) {
+        String updateResumeTitleQuery = "update Resume set title = ? where resumeIdx = ?";
+        Object[] updateResumeTitleParams = new Object[]{updateResumeTitleReq.getTitle(), resumeIdx};
+        this.jdbcTemplate.update(updateResumeTitleQuery, updateResumeTitleParams);
+    }
+
+    // 기본 이력서로 변경
+    public void updateResumeDefault(Long resumeIdx) {
+        String updateResumeDefaultQuery = "update Resume set isDefaulted = CASE WHEN resumeIdx = ? then true ELSE isDefaulted = false END";
+        Object[] updateResumeDefaultParams = new Object[]{resumeIdx};
+        this.jdbcTemplate.update(updateResumeDefaultQuery, updateResumeDefaultParams);
     }
 }

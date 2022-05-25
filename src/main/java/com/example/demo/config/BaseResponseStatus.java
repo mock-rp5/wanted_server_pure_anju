@@ -32,6 +32,12 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
+    // resume
+    RESUME_EMPTY_RESUME_ID(false, 2020, "이력서 아이디 값을 확인해주세요."),
+
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
 
     // [POST] /like
     //Like
