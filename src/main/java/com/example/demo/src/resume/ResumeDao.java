@@ -1,5 +1,6 @@
 package com.example.demo.src.resume;
 
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
@@ -7,6 +8,7 @@ import com.example.demo.src.validation.model.email.PostEmailReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -96,7 +98,7 @@ public class ResumeDao {
         Object[] retrieveAllResumeParams = new Object[]{userIdx};
         List<Map<String, Object>> resumeList = this.jdbcTemplate.queryForList(retrieveAllResumeQuery, retrieveAllResumeParams);
         List<GetResumeRes.RetrieveAllResume> retrieveAllResumeList = new ArrayList<>();
-        System.out.println(resumeList.get(0).get("updatedAt").toString());
+
         for (Map<String, Object> resume : resumeList) {
             retrieveAllResumeList.add(
                     GetResumeRes.RetrieveAllResume.builder()
@@ -247,4 +249,10 @@ public class ResumeDao {
         return getResumeRes;
     }
 
+    // 이력서 삭제
+    public void deleteResume(Long resumeIdx) {
+        String deleteResumeQuery = "update Resume set status = 'NOTACTIVE' where resumeIdx = ?;";
+        Object[] deleteResumeQueryParams = new Object[]{resumeIdx};
+        this.jdbcTemplate.update(deleteResumeQuery, deleteResumeQueryParams);
+    }
 }
