@@ -1,7 +1,6 @@
 package com.example.demo.src.bookmark;
 
 import com.example.demo.config.BaseException;
-import com.example.demo.config.BaseResponse;
 import com.example.demo.src.bookmark.model.PostBookmarkRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -34,6 +33,17 @@ public class BookmarkService {
             int employmentBookmarkIdx = bookmarkDao.createBookmark(userIdx, employmentIdx);
             return new PostBookmarkRes(userIdx, employmentBookmarkIdx, result);
 
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //북마크 취소
+    public void cancelBookmark(Long userIdx, int employmentIdx) throws BaseException{
+        try{
+            int result = bookmarkDao.cancelBookmark(userIdx, employmentIdx);
+            if(result == 0)
+                throw new BaseException(FAIL_CANCEL_BOOKMARK);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

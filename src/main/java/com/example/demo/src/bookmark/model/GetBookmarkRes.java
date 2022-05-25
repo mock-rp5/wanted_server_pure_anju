@@ -11,5 +11,12 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class GetBookmarkRes {
-    private List<Employment> employmentList;
+    private int employmentBookmarkIdx;
+    private int employmentIdx;
+    private String imgUrl;
+    private int isBookmarked;
+    private String title;
+    private String companyName;
+    private String country;
+    private int totalReward;
 }
