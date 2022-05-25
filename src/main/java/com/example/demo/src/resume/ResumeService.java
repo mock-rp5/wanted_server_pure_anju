@@ -2,6 +2,7 @@ package com.example.demo.src.resume;
 
 
 import com.example.demo.config.BaseException;
+import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.profile.model.PutSpecializedFieldReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
@@ -32,6 +33,16 @@ public class ResumeService {
     public PostResumeRes createResume(Long userIdx, PostResumeReq postResumeReq) throws BaseException {
         try {
             return resumeDao.createResume(userIdx, postResumeReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    // 이력서 삭제
+    public void deleteResume(Long resumeIdx) throws BaseException {
+        try {
+            resumeDao.deleteResume(resumeIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

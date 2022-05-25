@@ -67,9 +67,7 @@ public class JwtService {
         }
 
         // 3. userIdx 추출
-
-        return claims.getBody().get("userIdx",Long.class);
-
+        return claims.getBody().get("userIdx", Long.class);
     }
 
 }

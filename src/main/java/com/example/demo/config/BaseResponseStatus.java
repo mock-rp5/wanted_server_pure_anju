@@ -48,7 +48,9 @@ public enum BaseResponseStatus {
               //bookmark
     POST_BOOKMARK_FAIL(false, 3050, "중복된 북마크 입니다."),
     UPDATE_FAIL_BOOKMARK(false, 3051, "북마크 생성에 실패하였습니다."),
+
     FAIL_CANCEL_BOOKMARK(false, 3002, "북마크 해제에 실패하였습니다."),
+
 
 
 

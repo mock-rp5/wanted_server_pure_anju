@@ -1,13 +1,17 @@
 package com.example.demo.src.bookmark;
 
+
 import com.example.demo.src.bookmark.model.GetBookmarkRes;
+
 import com.example.demo.src.bookmark.model.PostBookmarkRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+
 import java.util.List;
+
 
 @Repository
 public class BookmarkDao {
@@ -66,6 +70,7 @@ public class BookmarkDao {
                 checkUserEmploymentParams);
     }
 
+
     //북마크 해제
     public int cancelBookmark(Long userIdx, int employmentIdx){
         String cancelBookmarkQuery = "update EmploymentBookmark set status = 'NOTACTIVE' where userIdx = ? and employmentIdx = ?";
@@ -98,4 +103,5 @@ public class BookmarkDao {
                 getBookmarksParams);
     }
 }
+
 
