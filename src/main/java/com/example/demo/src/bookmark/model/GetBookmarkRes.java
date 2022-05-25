@@ -21,6 +21,5 @@ public class GetBookmarkRes {
     private String country;
     private int totalReward;
 
-    private List<Employment> employmentList;
 
 }
