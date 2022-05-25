@@ -24,11 +24,11 @@ public class ResumeProvider {
 
     // 모든 이력서 조회
     public List<GetResumeRes.RetrieveAllResume> retrieveAllResume(Long userIdx) throws BaseException {
-//        try {
+        try {
             return resumeDao.retrieveAllResume(userIdx);
-//        } catch (Exception exception) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
     // 특정 이력서 조회
