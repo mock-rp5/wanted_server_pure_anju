@@ -2,6 +2,7 @@ package com.example.demo.src.employment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.src.employment.model.GetEmploymentDetailRes;
 import com.example.demo.src.employment.model.GetEmploymentRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -34,12 +35,12 @@ public class EmploymentController {
      */
     @ResponseBody
     @GetMapping("/employmentList")
-    public BaseResponse<GetEmploymentRes> getemployments(@RequestParam("country") String country, @RequestParam("sort") String sort,
+    public BaseResponse<GetEmploymentRes> getEmployments(@RequestParam("country") String country, @RequestParam("sort") String sort,
                                                          @RequestParam("years1") int years1, @RequestParam("years2") int years2) {
 
         try{
-
-            GetEmploymentRes getEmploymentRes = employmentProvider.getEmployments(1, country, sort, years1, years2);
+            Long userIdx = jwtService.getUserIdx();
+            GetEmploymentRes getEmploymentRes = employmentProvider.getEmployments(userIdx, country, sort, years1, years2);
             return new BaseResponse<>(getEmploymentRes);
 
 
@@ -48,4 +49,22 @@ public class EmploymentController {
         }
 
     }
+
+    /**
+     * 채용공고 상세 화면 조회 API
+     * [GET}
+     */
+    @ResponseBody
+    @GetMapping("/employments/{employmentIdx}")
+    public BaseResponse<GetEmploymentDetailRes> getEmploymentDetails(@PathVariable int employmentIdx){
+        try{
+            Long userIdx = jwtService.getUserIdx();
+            GetEmploymentDetailRes getEmploymentDetailRes = employmentProvider.getEmploymentDetails(userIdx, employmentIdx);
+            return new BaseResponse<>(getEmploymentDetailRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
 }
