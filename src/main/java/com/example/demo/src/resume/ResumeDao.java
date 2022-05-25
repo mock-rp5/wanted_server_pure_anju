@@ -160,6 +160,7 @@ public class ResumeDao {
             }
 
 
+
             getResumeRes.getCareers().add(
                     GetResumeRes.Career.builder()
                             .companyName((String) careerList.get(i).get("companyName"))
