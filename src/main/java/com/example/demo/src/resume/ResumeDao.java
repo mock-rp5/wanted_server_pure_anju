@@ -2,6 +2,7 @@ package com.example.demo.src.resume;
 
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
+import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
 import com.example.demo.src.validation.model.email.PostEmailReq;
@@ -162,7 +163,6 @@ public class ResumeDao {
             }
 
 
-
             getResumeRes.getCareers().add(
                     GetResumeRes.Career.builder()
                             .companyName((String) careerList.get(i).get("companyName"))
@@ -254,5 +254,12 @@ public class ResumeDao {
         String deleteResumeQuery = "update Resume set status = 'NOTACTIVE' where resumeIdx = ?;";
         Object[] deleteResumeQueryParams = new Object[]{resumeIdx};
         this.jdbcTemplate.update(deleteResumeQuery, deleteResumeQueryParams);
+    }
+
+    // 이력서 이름 변경
+    public void updateResumeTitle(Long resumeIdx, PatchResumeReq.UpdateResumeTitleReq updateResumeTitleReq) {
+        String updateResumeTitleQuery = "update Resume set title = ? where resumeIdx = ?";
+        Object[] updateResumeTitleParams = new Object[]{updateResumeTitleReq.getTitle(), resumeIdx};
+        this.jdbcTemplate.update(updateResumeTitleQuery, updateResumeTitleParams);
     }
 }

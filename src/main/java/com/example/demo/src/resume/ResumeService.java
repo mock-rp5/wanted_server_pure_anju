@@ -4,6 +4,7 @@ package com.example.demo.src.resume;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.profile.model.PutSpecializedFieldReq;
+import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
 import com.example.demo.src.user.model.PostUserReq;
@@ -29,7 +30,7 @@ public class ResumeService {
         this.resumeDao = resumeDao;
     }
 
-
+    // 이력서 생성
     public PostResumeRes createResume(Long userIdx, PostResumeReq postResumeReq) throws BaseException {
         try {
             return resumeDao.createResume(userIdx, postResumeReq);
@@ -47,6 +48,15 @@ public class ResumeService {
             throw new BaseException(DATABASE_ERROR);
         }
 
+    }
+
+    // 이력서 이름 변경
+    public void updateResumeTitle(Long resumeIdx, PatchResumeReq.UpdateResumeTitleReq updateResumeTitleReq) throws BaseException {
+        try {
+            resumeDao.updateResumeTitle(resumeIdx, updateResumeTitleReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 }
