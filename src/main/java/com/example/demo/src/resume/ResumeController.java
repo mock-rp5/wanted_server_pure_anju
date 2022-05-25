@@ -38,7 +38,7 @@ public class ResumeController {
      * [post] /app/resume
      */
     @PostMapping("")
-    public BaseResponse<PostResumeRes> postResume(@Valid @RequestBody PostResumeReq postResumeReq) {
+    public BaseResponse<PostResumeRes> createResume(@Valid @RequestBody PostResumeReq postResumeReq) {
         try {
             Long userIdx = jwtService.getUserIdx();
             return new BaseResponse<>(resumeService.createResume(userIdx, postResumeReq));
@@ -52,13 +52,26 @@ public class ResumeController {
      * [get] /app/resume
      */
     @GetMapping("")
-    public BaseResponse<List<GetResumeRes.RetrieveAllResume>> getRetrieveAllResume() {
+    public BaseResponse<List<GetResumeRes.RetrieveAllResume>> retrieveAllResume() {
         try {
             Long userIdx = jwtService.getUserIdx();
-            return new BaseResponse<>(resumeProvider.getRetrieveAllResume(userIdx));
+            return new BaseResponse<>(resumeProvider.retrieveAllResume(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
 
+    /**
+     * 상세 이력서 조회 API
+     * [get] /app/resume/:resumeId
+     */
+    @GetMapping("/{resumeIdx}")
+    public BaseResponse<GetResumeRes> retrieveResume(@PathVariable Long resumeIdx) {
+        try {
+            return new BaseResponse<>(resumeProvider.retrieveResume(resumeIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
+

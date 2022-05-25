@@ -23,11 +23,20 @@ public class ResumeProvider {
     }
 
     // 모든 이력서 조회
-    public List<GetResumeRes.RetrieveAllResume> getRetrieveAllResume(Long userIdx) throws BaseException {
+    public List<GetResumeRes.RetrieveAllResume> retrieveAllResume(Long userIdx) throws BaseException {
         try {
-            return resumeDao.getRetrieveAllResume(userIdx);
+            return resumeDao.retrieveAllResume(userIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    // 특정 이력서 조회
+    public GetResumeRes retrieveResume(Long resumeIdx) throws BaseException {
+//        try {
+            return resumeDao.retrieveResume(resumeIdx);
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 }
