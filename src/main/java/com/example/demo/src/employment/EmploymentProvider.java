@@ -23,6 +23,7 @@ public class EmploymentProvider {
         this.employmentDao = employmentDao;
     }
 
+    //채용공고 조회
     public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, int years1, int years2) throws BaseException {
         try {
             GetEmploymentRes getEmploymentRes = employmentDao.getEmployments(userIdx, country, sort, years1, years2);
@@ -32,6 +33,7 @@ public class EmploymentProvider {
         }
     }
 
+    //채용공고 상세 조회
     public GetEmploymentDetailRes getEmploymentDetails(Long userIdx, int employmentIdx) throws BaseException {
         try {
             GetEmploymentDetailRes getEmploymentDetailRes = employmentDao.getEmployDetails(userIdx, employmentIdx);
