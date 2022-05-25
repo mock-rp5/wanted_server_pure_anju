@@ -73,5 +73,19 @@ public class ResumeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 이력서 삭제 API
+     * [patch] /app/resume/:resumeId/delete
+     */
+    @GetMapping("/{resumeIdx}/delete")
+    public BaseResponse<BaseResponseStatus> deleteResume(@PathVariable Long resumeIdx) {
+        try {
+            resumeService.deleteResume(resumeIdx);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
 

@@ -39,4 +39,6 @@ public class ResumeProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
 }
