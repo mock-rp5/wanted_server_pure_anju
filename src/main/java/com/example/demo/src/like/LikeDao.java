@@ -1,6 +1,6 @@
 package com.example.demo.src.like;
 
-import com.example.demo.src.like.model.PostLikeReq;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,4 +34,14 @@ public class LikeDao {
         Object[] GetLikeProductParams = new Object[]{userIdx, employmentIdx};
         return this.jdbcTemplate.queryForObject(GetLikeProductQuery, int.class,GetLikeProductParams);
     }
+
+    public int cancelLike(int employmentIdx, Long userIdx) {
+        String cancelLikeQuery = "update EmploymentLike set status = 'NOTACTIVE'" +
+                "where userIdx= ? and employmentIdx = ? ";
+        Object[] cancelLikeParams = new Object[]{userIdx, employmentIdx};
+
+        return this.jdbcTemplate.update(cancelLikeQuery,cancelLikeParams);
+    }
+
+
 }
