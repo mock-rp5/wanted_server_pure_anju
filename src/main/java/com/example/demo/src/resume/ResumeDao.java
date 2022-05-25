@@ -1,6 +1,5 @@
 package com.example.demo.src.resume;
 
-import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
@@ -161,6 +160,7 @@ public class ResumeDao {
                                 .build()
                 );
             }
+
 
 
             getResumeRes.getCareers().add(

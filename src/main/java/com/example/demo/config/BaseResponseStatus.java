@@ -33,6 +33,10 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
 
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
+
 
     /**
      * 3000 : Response 오류
@@ -43,6 +47,18 @@ public enum BaseResponseStatus {
     // [POST] /users
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
     FAILED_TO_LOGIN(false,3014,"없는 아이디거나 비밀번호가 틀렸습니다."),
+
+
+              //bookmark
+    POST_BOOKMARK_FAIL(false, 3050, "중복된 북마크 입니다."),
+    UPDATE_FAIL_BOOKMARK(false, 3051, "북마크 생성에 실패하였습니다."),
+
+
+    DELETION_FAIL_LIKE(false,3060, "좋아요 취소에 실패하였습니다."),
+
+    FAIL_CANCEL_BOOKMARK(false, 3002, "북마크 해제에 실패하였습니다."),
+
+
 
 
 
