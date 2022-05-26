@@ -3,7 +3,6 @@ package com.example.demo.src.company;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.company.model.PatchCompanyReq;
-import com.example.demo.src.company.model.PatchCompanyUnregisterReq;
 import com.example.demo.src.company.model.PostCompanyReq;
 
 import com.example.demo.utils.JwtService;
@@ -46,18 +45,6 @@ public class CompanyService {
 
         try {
             companyDao.modifyCompany(patchCompanyReq, companyIdx);
-
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-
-
-    }
-
-    public void deleteCompany(int companyIdx) throws BaseException {
-
-        try {
-            companyDao.deleteCompany(companyIdx);
 
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
