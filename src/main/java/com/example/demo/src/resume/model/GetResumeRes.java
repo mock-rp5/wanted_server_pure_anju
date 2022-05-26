@@ -47,6 +47,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class Career {
+        private Long careerIdx;
         private String companyName;
         private String employmentForm;
         private LocalDate startDate;
@@ -60,6 +61,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class MajorAccomplishment {
+        private Long majorAccomplishmentIdx;
         private String content;
         private LocalDate startDate;
         private LocalDate endDate;
@@ -70,6 +72,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class Education {
+        private Long educationIdx;
         private String schoolName;
         private String major;
         private LocalDate admissionDate;
@@ -83,6 +86,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class Skill {
+        private Long skillIdx;
         private String skillName;
     }
 
@@ -91,6 +95,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class Awards {
+        private Long awardsIdx;
         private String awardsTitle;
         private String awardsContent;
         private LocalDate awardsDate;
@@ -101,6 +106,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class ForeignLanguage {
+        private Long foreignLanguageIdx;
         private String languageType;
         private String languageLevel;
         private String licenseName;
@@ -113,6 +119,7 @@ public class GetResumeRes {
     @NoArgsConstructor
     @Builder
     public static class Portfolio {
+        private Long portfolioIdx;
         private String portfolioUrl1;
         private String portfolioUrl2;
         private String portfolioUrl3;

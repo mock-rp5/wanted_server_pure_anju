@@ -28,6 +28,7 @@ public class PostUserReq {
     @NotBlank(message = "패스워드에 공백이 포함되어 있는지 확인해 주세요.")
     private String password;
 
+    @AssertTrue(message = "개인정보 동의 체크를 해주세요.")
     @NotNull(message = "개인정보 동의 체크를 해주세요.")
     private Boolean privacyPolicyAgreement;
 

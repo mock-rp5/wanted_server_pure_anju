@@ -33,11 +33,11 @@ public class ResumeProvider {
 
     // 특정 이력서 조회
     public GetResumeRes retrieveResume(Long resumeIdx) throws BaseException {
-        try {
+//        try {
             return resumeDao.retrieveResume(resumeIdx);
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 
 

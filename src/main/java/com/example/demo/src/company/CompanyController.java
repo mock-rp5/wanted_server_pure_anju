@@ -70,8 +70,6 @@ public class CompanyController {
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
-
-
     }
 
 

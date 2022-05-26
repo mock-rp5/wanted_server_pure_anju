@@ -116,5 +116,33 @@ public class ResumeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 이력서 작성상태 변경 API
+     * [patch] /app/resume/:resumeId/complete
+     */
+    @PatchMapping("{resumeIdx}/complete")
+    public BaseResponse<BaseResponseStatus> updateResumeCompleted(@PathVariable Long resumeIdx) {
+        try {
+            resumeService.updateResumeCompleted(resumeIdx);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 이력서 수정 API
+     * [patch] /app/resume/:resumeId/
+     */
+    @PatchMapping("{resumeIdx}")
+    public BaseResponse<BaseResponseStatus> updateResume(@PathVariable Long resumeIdx, @Valid @RequestBody PatchResumeReq patchResumeReq) {
+        try {
+            resumeService.updateResume(resumeIdx, patchResumeReq);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
 
