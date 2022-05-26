@@ -67,4 +67,21 @@ public class ResumeService {
         }
     }
 
+    // 이력서 작성상태 변경
+    public void updateResumeCompleted(Long resumeIdx) throws BaseException {
+        try {
+            resumeDao.updateResumeCompleted(resumeIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 이력서 수정
+    public void updateResume(Long resumeIdx, PatchResumeReq patchResumeReq) throws BaseException {
+        try {
+            resumeDao.updateResume(resumeIdx, patchResumeReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
