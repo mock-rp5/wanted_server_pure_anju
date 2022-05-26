@@ -160,7 +160,6 @@ public class ResumeDao {
             }
 
 
-
             getResumeRes.getCareers().add(
                     GetResumeRes.Career.builder()
                             .companyName((String) careerList.get(i).get("companyName"))
@@ -266,5 +265,12 @@ public class ResumeDao {
         String updateResumeDefaultQuery = "update Resume set isDefaulted = CASE WHEN resumeIdx = ? then true ELSE isDefaulted = false END";
         Object[] updateResumeDefaultParams = new Object[]{resumeIdx};
         this.jdbcTemplate.update(updateResumeDefaultQuery, updateResumeDefaultParams);
+    }
+
+    // 이력서 작성상태 벼경
+    public void updateResumeCompleted(Long resumeIdx) {
+        String updateResumeCompletedQuery = "update Resume set isCompleted = if(isCompleted = 1, 0, 1) where resumeIdx = ?";
+        Object[] updateResumeCompletedParams = new Object[]{resumeIdx};
+        this.jdbcTemplate.update(updateResumeCompletedQuery, updateResumeCompletedParams);
     }
 }

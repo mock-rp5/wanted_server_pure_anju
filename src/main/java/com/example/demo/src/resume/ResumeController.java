@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
+import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
 import com.example.demo.utils.JwtService;
@@ -110,6 +111,20 @@ public class ResumeController {
     public BaseResponse<BaseResponseStatus> updateResumeDefault(@PathVariable Long resumeIdx) {
         try {
             resumeService.updateResumeDefault(resumeIdx);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 이력서 작성상태 변경 API
+     * [patch] /app/resume/:resumeId/complete
+     */
+    @PatchMapping("{resumeIdx}/complete")
+    public BaseResponse<BaseResponseStatus> updateResumeCompleted(@PathVariable Long resumeIdx) {
+        try {
+            resumeService.updateResumeCompleted(resumeIdx);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

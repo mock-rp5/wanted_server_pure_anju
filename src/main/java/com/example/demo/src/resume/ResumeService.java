@@ -67,4 +67,14 @@ public class ResumeService {
         }
     }
 
+    // 이력서 작성상태 벼경
+    public void updateResumeCompleted(Long resumeIdx) throws BaseException {
+        try {
+            resumeDao.updateResumeCompleted(resumeIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 }
