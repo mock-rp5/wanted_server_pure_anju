@@ -2,6 +2,7 @@ package com.example.demo.src.company;
 
 
 import com.example.demo.config.BaseException;
+import com.example.demo.src.company.model.PatchCompanyReq;
 import com.example.demo.src.company.model.PostCompanyReq;
 
 import com.example.demo.utils.JwtService;
@@ -37,6 +38,18 @@ public class CompanyService {
             throw new BaseException(DUPLICATED_COMPANY_NAME);
         }
         companyDao.createCompany(postCompanyReq);
+
+    }
+
+    public void modifyCompany(PatchCompanyReq patchCompanyReq, int companyIdx) throws BaseException {
+
+        try {
+            companyDao.modifyCompany(patchCompanyReq, companyIdx);
+
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+
 
     }
 
