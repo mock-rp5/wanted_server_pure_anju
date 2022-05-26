@@ -7,6 +7,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.bookmark.model.GetBookmarkRes;
 
 import com.example.demo.src.bookmark.model.PostBookmarkRes;
+import com.example.demo.src.company.model.PostCompanyReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -44,7 +46,7 @@ public class BookmarkController {
      */
     @ResponseBody
     @PostMapping("/employments/{employmentIdx}")
-    public BaseResponse<PostBookmarkRes> createBookmark(@PathVariable("employmentIdx") int employmentIdx) {
+    public BaseResponse<String> createBookmark(@PathVariable("employmentIdx") int employmentIdx) {
         try{
             Long userIdx = jwtService.getUserIdx();
 
@@ -52,11 +54,12 @@ public class BookmarkController {
             if(status == 1){
                 return new BaseResponse<>(POST_BOOKMARK_FAIL);
             }
+
             String result = "북마크에 저장되었습니다.";
-            PostBookmarkRes postBookmarkRes = bookmarkService.createBookmark(userIdx, employmentIdx, result);
+            bookmarkService.createBookmark(userIdx, employmentIdx);
 
 
-            return new BaseResponse<>(postBookmarkRes);
+            return new BaseResponse<>(result);
 
 
         } catch (BaseException exception) {

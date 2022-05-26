@@ -5,6 +5,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 
 import com.example.demo.src.bookmark.model.PostBookmarkRes;
+import com.example.demo.src.company.model.PostCompanyReq;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,16 +31,17 @@ public class BookmarkService {
     }
 
     //북마크 생성
-    public PostBookmarkRes createBookmark(Long userIdx, int employmentIdx, String result) throws BaseException {
+    public void createBookmark(Long userIdx, int employmentIdx) throws BaseException {
         try {
 
-            int employmentBookmarkIdx = bookmarkDao.createBookmark(userIdx, employmentIdx);
-            return new PostBookmarkRes(userIdx, employmentBookmarkIdx, result);
+            bookmarkDao.createBookmark(userIdx, employmentIdx);
 
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+
 
 
     //북마크 취소
