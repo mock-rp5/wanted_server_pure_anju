@@ -5,7 +5,7 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.company.model.GetCompanyDetailsRes;
 
 
-
+import com.example.demo.src.company.model.PatchCompanyReq;
 import com.example.demo.src.company.model.PostCompanyReq;
 
 import com.example.demo.utils.JwtService;
@@ -70,6 +70,26 @@ public class CompanyController {
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
+    }
+
+    /**
+     * 회사 정보 수정 API
+     * [PATCH]
+     */
+    @ResponseBody
+    @PatchMapping("/{companyIdx}")
+    public BaseResponse<String> modifyCompany(@Valid @RequestBody PatchCompanyReq patchCompanyReq,
+                                              @PathVariable int companyIdx) {
+        try{
+            companyService.modifyCompany(patchCompanyReq, companyIdx);
+            String result = "회사 정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+
     }
 
 

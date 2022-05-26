@@ -104,8 +104,11 @@ public class CompanyDao {
         this.jdbcTemplate.update(sql, params);
     }
 
+
+
+
     public boolean getCompanyName(String companyName){
-        String sql = "select companyName from Company where companyName = ?";
+        String sql = "select companyName from Company where companyName = ? and status = 'ACTIVE'";
         String param = companyName;
         List<String> companyNameList = this.jdbcTemplate.query(sql,
                 (rs, rowNum) -> rs.getString("companyName"),
@@ -115,5 +118,22 @@ public class CompanyDao {
         }
         return false;
     }
+
+    public void modifyCompany(PatchCompanyReq patchCompanyReq, int companyIdx){
+        StringBuffer br = new StringBuffer();
+        br.append("update Company set ");
+        br.append("companyName = ?, introduction = ?, country = ?, city = ?, address = ?, industry = ?, ");
+        br.append("establishYear = ?, email = ?, phoneNumber = ?, isAgreed = ?, isActivited = false, status = 'ACTIVE' ");
+        br.append("where companyIdx = ?");
+        String sql = br.toString();
+
+        Object[] params = new Object[]{
+                patchCompanyReq.getCompanyName(), patchCompanyReq.getIntroduction(), patchCompanyReq.getCountry(), patchCompanyReq.getCity(),
+                patchCompanyReq.getAddress(), patchCompanyReq.getIndustry(), patchCompanyReq.getEstablishYear(), patchCompanyReq.getEmail(),
+                patchCompanyReq.getPhoneNumber(), patchCompanyReq.getIsAgreed(), companyIdx
+        };
+        this.jdbcTemplate.update(sql, params);
+    }
+
 
 }
