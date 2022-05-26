@@ -34,7 +34,7 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery, Long.class);
     }
 
-    public UserDto.GetUserRes getUser(Long userIdx) {
+    public UserDto.GetUserRes retrieveUser(Long userIdx) {
         String getUserQuery = "select * from User where userIdx = ? AND status = 'ACTIVE'";
         Object[] getUserParams = new Object[]{userIdx};
         List<Map<String, Object>> user = this.jdbcTemplate.queryForList(getUserQuery, getUserParams);
@@ -60,6 +60,13 @@ public class UserDao {
                 ),
                 getPwdParams
         );
+    }
+
+    // 유저 삭제
+    public void deleteUser(Long userIdx){
+        String deleteUserQuery = "update User set status = 'NOTACTIVE' where userIdx = ?";
+        Object[] deleteUserParams = new Object[]{userIdx};
+        this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
     }
 
 }

@@ -40,9 +40,9 @@ public class UserProvider {
     }
 
     // 회원 정보 조회
-    public UserDto.GetUserRes getUser(Long userIdx) throws BaseException {
+    public UserDto.GetUserRes retrieveUser(Long userIdx) throws BaseException {
         try {
-            return userDao.getUser(userIdx);
+            return userDao.retrieveUser(userIdx);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

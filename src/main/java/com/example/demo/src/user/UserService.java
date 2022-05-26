@@ -58,5 +58,13 @@ public class UserService {
         return new UserDto.PostUserRes(jwt, userIdx);
     }
 
+    public void deleteUser(Long userIdx) throws BaseException {
+        try {
+            userDao.deleteUser(userIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 }
