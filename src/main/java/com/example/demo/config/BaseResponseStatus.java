@@ -39,6 +39,10 @@ public enum BaseResponseStatus {
     //Like
     POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
 
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
+
 
     /**
      * 3000 : Response 오류

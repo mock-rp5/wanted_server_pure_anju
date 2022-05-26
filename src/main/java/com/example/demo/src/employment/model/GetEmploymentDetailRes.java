@@ -1,5 +1,6 @@
 package com.example.demo.src.employment.model;
 
+import com.example.demo.src.company.model.CompanyTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
 package com.example.demo.src.employment;
 
+import com.example.demo.src.company.model.CompanyTag;
 import com.example.demo.src.employment.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,4 +1,4 @@
-package com.example.demo.src.employment.model;
+package com.example.demo.src.company.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
