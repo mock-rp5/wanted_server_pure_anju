@@ -38,6 +38,7 @@ public enum BaseResponseStatus {
     POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
 
 
+
     /**
      * 3000 : Response 오류
      */
@@ -52,6 +53,9 @@ public enum BaseResponseStatus {
               //bookmark
     POST_BOOKMARK_FAIL(false, 3050, "중복된 북마크 입니다."),
     UPDATE_FAIL_BOOKMARK(false, 3051, "북마크 생성에 실패하였습니다."),
+
+    //company
+    DUPLICATED_COMPANY_NAME(false, 3055, "중복된 회사이름입니다."),
 
 
     DELETION_FAIL_LIKE(false,3060, "좋아요 취소에 실패하였습니다."),
