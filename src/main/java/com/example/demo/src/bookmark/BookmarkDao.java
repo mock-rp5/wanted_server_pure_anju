@@ -35,13 +35,33 @@ public class BookmarkDao {
 
     //북마크 생성
     public int createBookmark(Long userIdx, int employmentIdx){
-        String createBookmarkQuery = "insert into EmploymentBookmark (employmentIdx, userIdx, status) values (?,?,'ACTIVE')";
-        Object[] createBookmarkParams = new Object[]{employmentIdx, userIdx};
-        this.jdbcTemplate.update(createBookmarkQuery, createBookmarkParams);
 
-        String lastInsertQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInsertQuery, int.class);
+        String checkStatusSql = "select status from EmploymentBookmark where userIdx = ? and employmentIdx = " + employmentIdx + " and status = 'NOTACTIVE'";
+        Long checkParam = userIdx;
+        List<String> employmentBookmarkList = this.jdbcTemplate.query(checkStatusSql,
+                (rs, rowNum) -> rs.getString("status"),
+                checkParam);
+
+        if(employmentBookmarkList.isEmpty()) {
+            String createBookmarkQuery = "insert into EmploymentBookmark (employmentIdx, userIdx, status) values (?,?,'ACTIVE')";
+            Object[] createBookmarkParams = new Object[]{employmentIdx, userIdx};
+            this.jdbcTemplate.update(createBookmarkQuery, createBookmarkParams);
+
+            String lastInsertQuery = "select last_insert_id()";
+            return this.jdbcTemplate.queryForObject(lastInsertQuery, int.class);
+        }
+        else{
+            String updateBookmarkQuery = "update EmploymentBookmark set status = 'ACTIVE' where userIdx = ? and employmentIdx = ?";
+            Object[] updateBookmarkParams = new Object[]{userIdx, employmentIdx};
+
+            this.jdbcTemplate.update(updateBookmarkQuery, updateBookmarkParams);
+
+            return checkUserEmployment(userIdx, employmentIdx);
+        }
+
+
     }
+
 
     //북마크 업데이트
     public PostBookmarkRes updateBookmark(Long userIdx, int employmentIdx, String result){

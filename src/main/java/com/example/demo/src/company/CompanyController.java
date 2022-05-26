@@ -42,7 +42,6 @@ public class CompanyController {
      */
     @ResponseBody
     @GetMapping("/{companyIdx}")
-
     public BaseResponse<GetCompanyDetailsRes> getCompanyDetails(@PathVariable("companyIdx") int companyIdx){
         try {
             Long userIdx = jwtService.getUserIdx();

@@ -42,7 +42,6 @@ public class EmploymentDao {
                         rs.getString("imgUrl"),
                         rs.getString("companyName"),
                         rs.getInt("countPosition")));
-
         String getEmploymentQuery = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where userIdx = " + userIdx + ") as isBookmark,EM.title, CIC.companyName, CIC.responseRate, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
                 "from Employment as EM\n" +
                 "left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city, case when C.responseRate > 95\n" +
@@ -57,10 +56,7 @@ public class EmploymentDao {
                 "order by C.responseRate desc) as CIC on CIC.companyIdx = EM.companyIdx\n" +
                 "left join EmploymentBookmark EB on EM.employmentIdx = EB.employmentIdx\n" +
                 "where EM.years > " + years1 + " and EM.years < " + years2;
-
         String getEmploymentParams = country;
-
-
         List<Employment> employmentList = this.jdbcTemplate.query(getEmploymentQuery,
                 (rs1, rowNum1) -> new Employment(rs1.getInt("employmentIdx"),
                         rs1.getString("imgUrl"),
@@ -71,9 +67,7 @@ public class EmploymentDao {
                         rs1.getString("city"),
                         rs1.getString("country"),
                         rs1.getInt("totalReward")), getEmploymentParams);
-
         GetEmploymentRes getEmploymentRes = new GetEmploymentRes(companyList, employmentList);
-
         return getEmploymentRes;
 
     }
@@ -86,7 +80,7 @@ public class EmploymentDao {
                 "        when C.responseRate < 50\n" +
                 "        then null\n" +
                 "           end as responseRate, C.city, C.country, EE.recommenderReward, EE.applicantReward,\n" +
-                "                                exists(select EB.employmentIdx where EB.userIdx = " + userIdx + ") as isBookmarked,\n" +
+                "                                exists(select distinct EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmarked,\n" +
                 "                                exists(select A.employmentIdx where A.userIdx = " + userIdx + ") as isApplied,\n" +
                 "                                ELL.countLike,\n" +
                 "                                       EE.introduction, EE.primaryTask, EE.qualification,\n" +
@@ -136,7 +130,7 @@ public class EmploymentDao {
                                 (rs1, rowNum1) -> new CompanyTag(
                                         rs1.getInt("companyTagIdx"),
                                         rs1.getString("name")))
-                , this.jdbcTemplate.query(getEmploymentSkillQuery,
+                        , this.jdbcTemplate.query(getEmploymentSkillQuery,
                         (rs2, rowNum2) -> new EmploymentSkill(
                                 rs2.getInt("employmentSkillIdx"),
                                 rs2.getString("name")))
