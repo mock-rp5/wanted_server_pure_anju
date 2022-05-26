@@ -6,6 +6,7 @@ import com.example.demo.src.company.model.GetCompanyDetailsRes;
 
 
 import com.example.demo.src.company.model.PatchCompanyReq;
+import com.example.demo.src.company.model.PatchCompanyUnregisterReq;
 import com.example.demo.src.company.model.PostCompanyReq;
 
 import com.example.demo.utils.JwtService;
@@ -83,6 +84,26 @@ public class CompanyController {
         try{
             companyService.modifyCompany(patchCompanyReq, companyIdx);
             String result = "회사 정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+
+
+    }
+
+    /**
+     * 회사 정보 삭제 API
+     * [PATCH]
+     */
+    @ResponseBody
+    @PatchMapping("/{companyIdx}/unregister")
+    public BaseResponse<String> deleteCompany(@Valid @RequestBody PatchCompanyUnregisterReq patchCompanyUnregisterReq,
+                                              @PathVariable int companyIdx) {
+        try{
+            companyService.deleteCompany(companyIdx);
+            String result = "회사 정보가 삭제되었습니다.";
             return new BaseResponse<>(result);
 
         } catch(BaseException exception){
