@@ -6,12 +6,39 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.List;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PatchResumeReq {
+
+    @NotEmpty(message = "이력서 제목을 입력해주세요")
+    private String title;
+
+    @NotEmpty(message = "이름을 입력해 주세요")
+    private String name;
+
+    @Email(message = "이메일 형식을 확인해 주세요")
+    private String email;
+
+    @NotBlank(message = "휴대번호는 -를 제외한 11자리를 입력해 주세요.")
+    @Size(min = 11, max = 11)
+    private String phoneNumber;
+
+    private String content;
+
+    @NotNull(message = "작성완료 또는 임시저장 여부를 확인해 주세요")
+    private Boolean isCompleted;
+
+    private List<PatchResumeReq.Career> careers;
+    private List<PatchResumeReq.Education> educations;
+    private List<PatchResumeReq.Skill> skills;
+    private List<PatchResumeReq.Awards> awards;
+    private List<PatchResumeReq.ForeignLanguage> foreignLanguages;
+    private List<PatchResumeReq.Portfolio> portfolios;
 
 
     @Data
@@ -23,5 +50,81 @@ public class PatchResumeReq {
         @Size(max = 100, message = "이력서 제목의 최대 길이는 100글자 입니다.")
         @NotBlank(message = "이력서 제목은 필수로 입력되어야 합나다.")
         private String title;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Career {
+        private String companyName;
+        private String employmentForm;
+        private String startDate;
+        private String resignationDate;
+        private Boolean isPresented;
+        private List<PatchResumeReq.MajorAccomplishment> majorAccomplishments;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class MajorAccomplishment {
+        private String content;
+        private String startDate;
+        private String endDate;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Education {
+        private String schoolName;
+        private String major;
+        private String admissionDate;
+        private String graduationDate;
+        private String content;
+        private Boolean isAttended;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Skill {
+        private String skillName;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Awards {
+        private String awardsTitle;
+        private String awardsContent;
+        private String awardsDate;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class ForeignLanguage {
+        private String languageType;
+        private String languageLevel;
+        private String licenseName;
+        private Double licenseScore;
+        private String acquisitionDate;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Portfolio {
+        private String portfolioUrl1;
+        private String portfolioUrl2;
+        private String portfolioUrl3;
     }
 }
