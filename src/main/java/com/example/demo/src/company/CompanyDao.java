@@ -135,5 +135,16 @@ public class CompanyDao {
         this.jdbcTemplate.update(sql, params);
     }
 
+    public void deleteCompany(int companyIdx){
+        StringBuffer br = new StringBuffer();
+        br.append("update Company set ");
+        br.append("status = 'NOTACTIVE' ");
+        br.append("where companyIdx = ?");
+        String sql = br.toString();
+
+        Object[] params = new Object[]{companyIdx};
+        this.jdbcTemplate.update(sql, params);
+    }
+
 
 }
