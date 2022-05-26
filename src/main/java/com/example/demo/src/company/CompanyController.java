@@ -41,9 +41,6 @@ public class CompanyController {
      * [GET]
      */
     @ResponseBody
-
-    @GetMapping("")
-
     @GetMapping("/{companyIdx}")
 
     public BaseResponse<GetCompanyDetailsRes> getCompanyDetails(@PathVariable("companyIdx") int companyIdx){
@@ -74,8 +71,6 @@ public class CompanyController {
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
-
-
     }
 
 
