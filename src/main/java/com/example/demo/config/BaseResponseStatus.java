@@ -32,6 +32,16 @@ public enum BaseResponseStatus {
     POST_USERS_INVALID_EMAIL(false, 2016, "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
+    // resume
+    RESUME_EMPTY_RESUME_ID(false, 2020, "이력서 아이디 값을 확인해주세요."),
+
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
+
+    // [POST] /like
+    //Like
+    POST_LIKE_EXISTS(false, 2050, "이미 좋아요 중입니다."),
 
     // [POST] /like
     //Like
@@ -54,8 +64,10 @@ public enum BaseResponseStatus {
     POST_BOOKMARK_FAIL(false, 3050, "중복된 북마크 입니다."),
     UPDATE_FAIL_BOOKMARK(false, 3051, "북마크 생성에 실패하였습니다."),
 
+
     //company
     DUPLICATED_COMPANY_NAME(false, 3055, "중복된 회사이름입니다."),
+
 
 
     DELETION_FAIL_LIKE(false,3060, "좋아요 취소에 실패하였습니다."),

@@ -85,6 +85,7 @@ public class CompanyDao {
     }
 
 
+
     public void createCompany(PostCompanyReq postCompanyReq){
         StringBuffer br = new StringBuffer();
         br.append("insert into Company ");
@@ -114,4 +115,5 @@ public class CompanyDao {
         }
         return false;
     }
+
 }
