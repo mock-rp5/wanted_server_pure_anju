@@ -22,4 +22,5 @@ public class GetBookmarkRes {
     private int totalReward;
 
 
+
 }

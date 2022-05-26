@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.config.BaseResponseStatus;
 import com.example.demo.src.resume.model.GetResumeRes;
+import com.example.demo.src.resume.model.PatchResumeReq;
 import com.example.demo.src.resume.model.PostResumeReq;
 import com.example.demo.src.resume.model.PostResumeRes;
 import com.example.demo.utils.JwtService;
@@ -78,10 +79,38 @@ public class ResumeController {
      * 이력서 삭제 API
      * [patch] /app/resume/:resumeId/delete
      */
-    @GetMapping("/{resumeIdx}/delete")
+    @PatchMapping("/{resumeIdx}/delete")
     public BaseResponse<BaseResponseStatus> deleteResume(@PathVariable Long resumeIdx) {
         try {
             resumeService.deleteResume(resumeIdx);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 이력서 이름 변경 API
+     * [patch] /app/resume/:resumeId/title
+     */
+    @PatchMapping("/{resumeIdx}/title")
+    public BaseResponse<BaseResponseStatus> updateResumeTitle(@PathVariable Long resumeIdx, @Valid @RequestBody PatchResumeReq.UpdateResumeTitleReq updateResumeTitleReq) {
+        try {
+            resumeService.updateResumeTitle(resumeIdx, updateResumeTitleReq);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 기본 이력서로 변경 API
+     * [post] /app/resume/:resumeId/default
+     */
+    @PatchMapping("{resumeIdx}/default")
+    public BaseResponse<BaseResponseStatus> updateResumeDefault(@PathVariable Long resumeIdx) {
+        try {
+            resumeService.updateResumeDefault(resumeIdx);
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));

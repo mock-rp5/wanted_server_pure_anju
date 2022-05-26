@@ -5,14 +5,18 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.company.model.GetCompanyDetailsRes;
 
 
+
 import com.example.demo.src.company.model.PostCompanyReq;
+
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/app/companies")
@@ -49,6 +53,7 @@ public class CompanyController {
         }
     }
 
+
     /**
      * 회사 정보 생성 API
      * [POST]
@@ -68,6 +73,7 @@ public class CompanyController {
 
 
     }
+
 
 
 }
