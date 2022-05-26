@@ -83,4 +83,37 @@ public class CompanyDao {
 
 
     }
+
+
+
+    public void createCompany(PostCompanyReq postCompanyReq){
+        StringBuffer br = new StringBuffer();
+        br.append("insert into Company ");
+        br.append("(");
+        br.append("companyName, introduction, country, city, address, industry, ");
+        br.append("establishYear, email, phoneNumber, isAgreed, isActivited");
+        br.append(") ");
+        br.append("VALUES (?,?,?,?,?,?,?,?,?,?,false)");
+        String sql = br.toString();
+
+        Object[] params = new Object[]{
+                postCompanyReq.getCompanyName(), postCompanyReq.getIntroduction(), postCompanyReq.getCountry(), postCompanyReq.getCity(),
+                postCompanyReq.getAddress(), postCompanyReq.getIndustry(), postCompanyReq.getEstablishYear(), postCompanyReq.getEmail(),
+                postCompanyReq.getPhoneNumber(), postCompanyReq.getIsAgreed()
+        };
+        this.jdbcTemplate.update(sql, params);
+    }
+
+    public boolean getCompanyName(String companyName){
+        String sql = "select companyName from Company where companyName = ?";
+        String param = companyName;
+        List<String> companyNameList = this.jdbcTemplate.query(sql,
+                (rs, rowNum) -> rs.getString("companyName"),
+                param);
+        if(companyNameList.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
 }
