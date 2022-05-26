@@ -1,5 +1,6 @@
 package com.example.demo.src.user;
 
+import com.example.demo.config.BaseResponseStatus;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -54,15 +55,15 @@ public class UserController {
      * [get] /app/users/
      */
 
-    @GetMapping("/{userIdx}")
-    public BaseResponse<UserDto.GetUserRes> getUser(@PathVariable Long userIdx) {
+    @GetMapping("")
+    public BaseResponse<UserDto.GetUserRes> retrieveUser() {
         try {
-            return new BaseResponse<>(userProvider.getUser(userIdx));
+            Long userIdx = jwtService.getUserIdx();
+            return new BaseResponse<>(userProvider.retrieveUser(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
         }
     }
-
 
 
     /**
@@ -77,6 +78,22 @@ public class UserController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    /**
+     * 유저 탈퇴 API
+     * [patch] /app/users/delete
+     */
+    @PatchMapping("/delete")
+    public BaseResponse<BaseResponseStatus> deleteUser() {
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            userService.deleteUser(userIdx);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 //
 //    /**
 //     * 유저정보변경 API

@@ -47,15 +47,23 @@ public class UserService {
         }
         Long userIdx = userDao.createUser(postUserReq);
         String jwt = jwtService.createJwt(userIdx);
-        PutSpecializedFieldReq putSpecializedFieldReq = PutSpecializedFieldReq.builder()
+
+        profileDao.modifyProfileSpecializedField(PutSpecializedFieldReq.builder()
                 .userIdx(userIdx)
                 .jobGroup(postUserReq.getJobGroup())
                 .duty(postUserReq.getDuty())
                 .experience(postUserReq.getExperience())
-                .build();
-        profileDao.modifyProfileSpecializedField(putSpecializedFieldReq);
+                .build());
 
         return new UserDto.PostUserRes(jwt, userIdx);
+    }
+
+    public void deleteUser(Long userIdx) throws BaseException {
+        try {
+            userDao.deleteUser(userIdx);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 
