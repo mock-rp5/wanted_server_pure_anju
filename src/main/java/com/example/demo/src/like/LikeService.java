@@ -29,16 +29,16 @@ public class LikeService {
         this.jwtService = jwtService;
     }
 
-    @Transactional(rollbackOn = BaseException.class)
-    public PostLikeRes createLike(int employmentIdx, Long userIdx) throws BaseException {
+
+    public void createLike(int employmentIdx, Long userIdx) throws BaseException {
         int status = likeDao.getLikeEmployment(employmentIdx, userIdx);
         System.out.println(status);
         if(status != 0 ){
             throw new BaseException(POST_LIKE_EXISTS);
         }
         try{
-            int likeIdx = likeDao.createLike(employmentIdx, userIdx);
-            return new PostLikeRes(likeIdx);
+            likeDao.createLike(employmentIdx, userIdx);
+
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

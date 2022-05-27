@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
@@ -19,18 +20,32 @@ public class LikeDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public int createLike(int employmentIdx, Long userIdx) {
-        String createLikeQuery = "insert into EmploymentLike(employmentIdx, userIdx) values (?,?)";
-        Object[] createLikeParams = new Object[]{employmentIdx, userIdx};
-        this.jdbcTemplate.update(createLikeQuery, createLikeParams);
 
-        String lastInsertIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    // 좋아요 생성
+    public void createLike(int employmentIdx, Long userIdx) {
+        String checkStatusSql = "select status from EmploymentLike where userIdx = ? and employmentIdx = " + employmentIdx + " and status = 'NOTACTIVE'";
+        Long checkParam = userIdx;
+        List<String> employmentLikeList = this.jdbcTemplate.query(checkStatusSql,
+                (rs, rowNum) -> rs.getString("status"),
+                checkParam);
+
+        if (employmentLikeList.isEmpty()) {
+            String createLikeQuery = "insert into EmploymentLike (employmentIdx, userIdx, status) values (?,?,'ACTIVE')";
+            Object[] createLikeParams = new Object[]{employmentIdx, userIdx};
+            this.jdbcTemplate.update(createLikeQuery, createLikeParams);
+
+        } else {
+            String updateLikeQuery = "update EmploymentLike set status = 'ACTIVE' where userIdx = ? and employmentIdx = ?";
+            Object[] updateLikeParams = new Object[]{userIdx, employmentIdx};
+
+            this.jdbcTemplate.update(updateLikeQuery, updateLikeParams);
+        }
+
     }
 
     public int getLikeEmployment(int employmentIdx, Long userIdx) {
         String GetLikeProductQuery = "select count(employmentLikeIdx) from EmploymentLike " +
-                "where userIdx = ? and employmentIdx = ?";
+                "where userIdx = ? and employmentIdx = ? and status = 'ACTIVE'";
         Object[] GetLikeProductParams = new Object[]{userIdx, employmentIdx};
         return this.jdbcTemplate.queryForObject(GetLikeProductQuery, int.class,GetLikeProductParams);
     }
