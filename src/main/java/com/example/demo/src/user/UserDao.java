@@ -63,10 +63,16 @@ public class UserDao {
     }
 
     // 유저 삭제
-    public void deleteUser(Long userIdx){
+    public void deleteUser(Long userIdx) {
         String deleteUserQuery = "update User set status = 'NOTACTIVE' where userIdx = ?";
         Object[] deleteUserParams = new Object[]{userIdx};
-        this.jdbcTemplate.update(deleteUserQuery,deleteUserParams);
+        this.jdbcTemplate.update(deleteUserQuery, deleteUserParams);
     }
 
+    // 유저 프로필이미지 변경
+    public void updateUserProfileImage(Long userIdx, PatchUserReq.PatchUserProfileImageReq patchUserProfileImageReq) {
+        String patchUserProfileImageQuery = "update User set profileImage = ? where userIdx =? ";
+        Object[] patchUserProfileImageParams = new Object[]{patchUserProfileImageReq.getProfileImage(), userIdx};
+        this.jdbcTemplate.update(patchUserProfileImageQuery, patchUserProfileImageParams);
+    }
 }

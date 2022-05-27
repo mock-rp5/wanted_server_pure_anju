@@ -66,5 +66,13 @@ public class UserService {
         }
     }
 
+    public void updateUserProfileImage(Long userIdx, PatchUserReq.PatchUserProfileImageReq patchUserProfileImageReq) throws BaseException {
+        try {
+            userDao.updateUserProfileImage(userIdx, patchUserProfileImageReq);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 }
