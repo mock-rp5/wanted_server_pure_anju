@@ -94,6 +94,22 @@ public class UserController {
         }
     }
 
+    /**
+     * 유저 프로필 이미지 변경 API
+     * [patch] /app/users/profileImage
+     */
+    @PatchMapping("/profileImage")
+    public BaseResponse<BaseResponseStatus> updateUserProfileImage(@Valid @RequestBody PatchUserReq.PatchUserProfileImageReq patchUserProfileImageReq) {
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            userService.updateUserProfileImage(userIdx, patchUserProfileImageReq);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+
 //
 //    /**
 //     * 유저정보변경 API
