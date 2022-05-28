@@ -28,7 +28,7 @@
 |:---:|:---:|
 |Language & Frameworks|Java, Spring Boot, Spring Security(JWT)|
 |Database|MySQL|
-|Infra|AWS(EC2, RDS), Nginx|
+|Infra|AWS(EC2, RDS), Nginx, GitHub Action|
 |API Docs.|Swagger, Excel|
 
 
