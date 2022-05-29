@@ -137,5 +137,18 @@ public class UserController {
 //        }
 //    }
 
-
+    /**
+     * 유저 기본정보 수정
+     * [patch] /app/users/
+     */
+    @PatchMapping("")
+    public BaseResponse<BaseResponseStatus>  updateUserBasicInformation(@Valid @RequestBody PatchUserReq.PatchUserBasicInformationReq patchUserBasicInformationReq){
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            userService.updateUserBasicInformation(userIdx,patchUserBasicInformationReq);
+            return new BaseResponse<>(SUCCESS);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }
