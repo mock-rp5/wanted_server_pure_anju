@@ -76,6 +76,7 @@ public class UserDao {
         this.jdbcTemplate.update(patchUserProfileImageQuery, patchUserProfileImageParams);
     }
 
+    // 유저 기본정보 수정
     public void updateUserBasicInformation(Long userIdx, PatchUserReq.PatchUserBasicInformationReq patchUserBasicInformationReq) {
         String updateUserBasicInformationQuery = "update User set email = ?, name = ?, phoneNumber = ? where userIdx =? ";
         Object[]updateUserBasicInformationParams = new Object[]{patchUserBasicInformationReq.getEmail(), patchUserBasicInformationReq.getName(), patchUserBasicInformationReq.getPhoneNumber(), userIdx};

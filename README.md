@@ -28,7 +28,7 @@
 |:---:|:---:|
 |Language & Frameworks|Java, Spring Boot, Spring Security(JWT)|
 |Database|MySQL|
-|Infra|AWS(EC2, RDS), Nginx|
+|Infra|AWS(EC2, RDS), Nginx, GitHub Action|
 |API Docs.|Swagger, Excel|
 
 
@@ -111,5 +111,21 @@
  - 회사 정보 생성 API 구현
  - 회사 정보 수정 API 구현
  - 회사 정보 삭제 API 구현
+  
+## 2022-05-27(금)
+안주
+- 회원 탈퇴 API 구현
+- 유저 프로필 이미지 변경 API 구현
+  
+퓨어
+- 채용공고 좋아요 생성, 취소 버그 해결 
+  
+## 2022-05-28(토)
+안주
+- API 명세서 수정
+- GitGub Action CI 추가
+  
+퓨어
+- API 명세서 수정 
 </details>
 

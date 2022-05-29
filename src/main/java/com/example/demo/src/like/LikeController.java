@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
+import static com.example.demo.config.BaseResponseStatus.POST_BOOKMARK_FAIL;
+
 @RestController
 @RequestMapping("/app/likes")
 
@@ -39,20 +41,22 @@ public class LikeController {
 
     @ResponseBody
     @PostMapping("/employments/{employmentIdx}")
-    public BaseResponse<PostLikeRes> createLike(@PathVariable("employmentIdx") int employmentIdx){
+    public BaseResponse<String> createLike(@PathVariable("employmentIdx") int employmentIdx) {
 
 
-        try{
+        try {
             Long userIdx = jwtService.getUserIdx();
 
-            PostLikeRes postLikeRes = likeService.createLike(employmentIdx, userIdx);
+            likeService.createLike(employmentIdx, userIdx);
+            String result = "좋아요에 추가하였습니다.";
+            return new BaseResponse<>(result);
 
-            return new BaseResponse<>(postLikeRes);
-
-        } catch(BaseException exception){
+        } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
+
     }
+
     /**
      * 채용공고 좋아요 취소 API
      * [PATCH'
@@ -72,6 +76,4 @@ public class LikeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-
 }
