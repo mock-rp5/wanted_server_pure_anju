@@ -5,6 +5,8 @@ import com.example.demo.config.BaseException;
 import com.example.demo.src.profile.ProfileDao;
 import com.example.demo.src.profile.model.PutSpecializedFieldReq;
 import com.example.demo.src.user.model.*;
+import com.example.demo.src.validation.ValidationDao;
+import com.example.demo.src.validation.model.email.PostEmailReq;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 
 import static com.example.demo.config.BaseResponseStatus.*;
 
@@ -24,15 +29,16 @@ public class UserService {
 
     private final UserDao userDao;
     private final ProfileDao profileDao;
+    private final ValidationDao validationDao;
     private final JwtService jwtService;
 
     @Autowired
-    public UserService(UserDao userDao, ProfileDao profileDao, JwtService jwtService) {
+    public UserService(UserDao userDao, ProfileDao profileDao, ValidationDao validationDao, JwtService jwtService) {
         this.userDao = userDao;
         this.profileDao = profileDao;
+        this.validationDao = validationDao;
         this.jwtService = jwtService;
     }
-
 
     //POST
     public UserDto.PostUserRes createUser(PostUserReq postUserReq) throws BaseException {
@@ -72,6 +78,16 @@ public class UserService {
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public void updateUserBasicInformation(Long userIdx, PatchUserReq.PatchUserBasicInformationReq patchUserBasicInformationReq) throws BaseException {
+            if (validationDao.checkEmail(PostEmailReq.builder()
+                    .email(patchUserBasicInformationReq.getEmail())
+                    .build())) {
+                throw new BaseException(POST_USERS_EXISTS_EMAIL);
+            }
+            userDao.updateUserBasicInformation(userIdx, patchUserBasicInformationReq);
+
     }
 
 

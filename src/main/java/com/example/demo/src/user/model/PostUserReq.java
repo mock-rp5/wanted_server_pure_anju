@@ -17,7 +17,7 @@ public class PostUserReq {
     @NotBlank(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "이름의 형식을 확인해 주세요.")
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "이름의 형식을 확인해 주세요.")
     private String name;
 
