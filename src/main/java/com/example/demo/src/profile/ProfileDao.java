@@ -1,6 +1,7 @@
 package com.example.demo.src.profile;
 
 import com.example.demo.src.profile.model.GetProfileRes;
+import com.example.demo.src.profile.model.PatchSpecializedFieldReq;
 import com.example.demo.src.profile.model.PutSpecializedFieldReq;
 import com.example.demo.src.resume.model.GetResumeRes;
 import com.example.demo.src.user.model.PostUserReq;
@@ -22,11 +23,20 @@ public class ProfileDao {
     }
 
 
-    // 전분 분야 업데이트
-    public void modifyProfileSpecializedField(PutSpecializedFieldReq putSpecializedFieldReq) {
-        String modifyProfileSpecializedField = "INSERT INTO SpecializedField (userIdx, jobGroup, duty, experience, presentSalary, skill) values (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE jobGroup = ?, duty = ?, experience = ?, presentSalary = ?, skill =?";
-        Object[] modifyProfileSpecializedFieldParams = new Object[]{putSpecializedFieldReq.getUserIdx(), putSpecializedFieldReq.getJobGroup(), putSpecializedFieldReq.getDuty(), putSpecializedFieldReq.getExperience(), putSpecializedFieldReq.getPresentSalary(), putSpecializedFieldReq.getSkill(),
+    // 전분 분야 생성
+    public void createProfileSpecializedField(PutSpecializedFieldReq putSpecializedFieldReq) {
+        String createProfileSpecializedField = "INSERT INTO SpecializedField (userIdx, jobGroup, duty, experience, presentSalary, skill) values (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE jobGroup = ?, duty = ?, experience = ?, presentSalary = ?, skill =?";
+        Object[] createProfileSpecializedFieldParams = new Object[]{putSpecializedFieldReq.getUserIdx(), putSpecializedFieldReq.getJobGroup(), putSpecializedFieldReq.getDuty(), putSpecializedFieldReq.getExperience(), putSpecializedFieldReq.getPresentSalary(), putSpecializedFieldReq.getSkill(),
                 putSpecializedFieldReq.getJobGroup(), putSpecializedFieldReq.getDuty(), putSpecializedFieldReq.getExperience(), putSpecializedFieldReq.getPresentSalary(), putSpecializedFieldReq.getSkill()
+        };
+        this.jdbcTemplate.update(createProfileSpecializedField, createProfileSpecializedFieldParams);
+    }
+
+    // 전분 분야 수정
+    public void modifyProfileSpecializedField(Long userIdx, PatchSpecializedFieldReq patchSpecializedFieldReq) {
+        String modifyProfileSpecializedField = "INSERT INTO SpecializedField (userIdx, jobGroup, duty, experience, presentSalary, skill) values (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE jobGroup = ?, duty = ?, experience = ?, presentSalary = ?, skill =?";
+        Object[] modifyProfileSpecializedFieldParams = new Object[]{userIdx, patchSpecializedFieldReq.getJobGroup(), patchSpecializedFieldReq.getDuty(), patchSpecializedFieldReq.getExperience(), patchSpecializedFieldReq.getPresentSalary(),patchSpecializedFieldReq.getSkill(),
+                patchSpecializedFieldReq.getJobGroup(), patchSpecializedFieldReq.getDuty(), patchSpecializedFieldReq.getExperience(), patchSpecializedFieldReq.getPresentSalary(),patchSpecializedFieldReq.getSkill()
         };
         this.jdbcTemplate.update(modifyProfileSpecializedField, modifyProfileSpecializedFieldParams);
     }
