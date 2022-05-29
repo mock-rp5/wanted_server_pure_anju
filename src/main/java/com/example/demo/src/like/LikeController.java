@@ -17,7 +17,6 @@ import static com.example.demo.config.BaseResponseStatus.POST_BOOKMARK_FAIL;
 
 @RestController
 @RequestMapping("/app/likes")
-
 public class LikeController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
