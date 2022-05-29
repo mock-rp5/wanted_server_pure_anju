@@ -1,5 +1,6 @@
 package com.example.demo.src.event;
 
+import com.example.demo.src.event.model.GetArticleMainRes;
 import com.example.demo.src.event.model.GetEventMainRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,6 +34,20 @@ public class EventDao {
                         rs.getString("isVod"),
                         rs.getString("title"),
                         rs.getString("linkUrl")));
+    }
+
+    public List<GetArticleMainRes> getArticleMain(){
+        String getArticleSql = "select E.eventIdx, E.eventImgUrl, E.title, E.linkUrl, group_concat(ET.name) as eventTagList  from Event as E\n" +
+                "left join EventTag ET on E.eventIdx = ET.eventIdx\n" +
+                "where E.isArticle = true\n" +
+                "group by ET.eventIdx";
+
+        return this.jdbcTemplate.query(getArticleSql,
+                (rs, rowNum) -> new GetArticleMainRes(rs.getInt("eventIdx"),
+                        rs.getString("eventImgUrl"),
+                        rs.getString("title"),
+                        rs.getString("linkUrl"),
+                        rs.getString("eventTagList")));
     }
 }
 
