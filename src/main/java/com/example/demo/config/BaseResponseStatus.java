@@ -68,7 +68,7 @@ public enum BaseResponseStatus {
 
     //follow
     POST_FOLLOW_EXISTS(false, 3070, "이미 팔로우 중입니다."),
-
+    DELETION_FAIL_FOLLOW(false, 3071, "팔로우 취소에 실패하였습니다."),
 
 
 
