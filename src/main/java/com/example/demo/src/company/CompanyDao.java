@@ -20,23 +20,24 @@ public class CompanyDao {
     }
 
     public GetCompanyDetailsRes getCompanyDetails(Long userIdx, int companyIdx){
-        String getCompanyDetailsQuery = "select C.companyIdx, C.logo, C.companyName, case when C.responseRate > 95\n" +
-                "        then '응답률 매우 높음'\n" +
-                "        when C.responseRate > 90\n" +
-                "        then '응답률 높음'\n" +
-                "        when C.responseRate < 50\n" +
-                "        then null\n" +
-                "           end as responseRate, C.introduction, C.homePageUrl, C.newAverageSalary, C.totalAverageSalay,\n" +
-                "       C.employeeNumber from Company C\n" +
-                "where C.companyIdx = " + companyIdx;
+        String getCompanyDetailsQuery = "select C.companyIdx, C.logo, C.companyName, exists(select CF.companyFollowIdx ) as isFollowed, case when C.responseRate > 95\n" +
+                "                then '응답률 매우 높음'\n" +
+                "                when C.responseRate > 90\n" +
+                "                then '응답률 높음'\n" +
+                "                when C.responseRate < 50\n" +
+                "                then null\n" +
+                "                end as responseRate, C.introduction, C.homePageUrl, C.newAverageSalary, C.totalAverageSalay,\n" +
+                "                C.employeeNumber from Company C\n" +
+                "left join CompanyFollow CF on C.companyIdx = CF.companyIdx\n" +
+                "where userIdx = " + userIdx + " and C.companyIdx = " + companyIdx;
 
 
 
         String getCompanyPositionQuery = "select E.employmentIdx, E.title, E.applicantReward + E.recommenderReward as totalReward,\n" +
-                "       date_format(E.deadLinedAt, '%Y.%m.%d 까지') as deadLine, exists(select EB.employmentIdx ) as isBookmarked\n" +
-                "from Employment as E\n" +
-                "left join EmploymentBookmark EB on E.employmentIdx = EB.employmentIdx\n" +
-                "where E.companyIdx = " + companyIdx + " and EB.status = 'ACTIVE' and EB.userIdx = " + userIdx;
+                "                       date_format(E.deadLinedAt, '%Y.%m.%d 까지') as deadLine, exists(select EB.employmentIdx where EB.status = 'ACTIVE') as isBookmarked\n" +
+                "                from Employment as E\n" +
+                "            left join EmploymentBookmark EB on E.employmentIdx = EB.employmentIdx\n" +
+                "                where E.companyIdx = " + companyIdx + " and EB.userIdx = " + userIdx;
 
 
         String getCompanyImagesQuery = "select CI.companyImgageIdx, CI.imgUrl from CompanyImage as CI\n" +
@@ -52,6 +53,7 @@ public class CompanyDao {
                 (rs, rowNum) -> new GetCompanyDetailsRes(rs.getInt("companyIdx"),
                         rs.getString("logo"),
                         rs.getString("companyName"),
+                        rs.getInt("isFollowed"),
                         rs.getString("responseRate"),
                         rs.getString("introduction"),
                         rs.getString("homePageUrl"),
