@@ -150,11 +150,12 @@ public class CompanyDao {
     }
 
     public GetCompanyBySearchRes getCompanyBySearch(Long userIdx, String condition){
-        String getCompanySql = "select count(distinct C.companyIdx) as countOfCompany, C.companyIdx, C.logo, C.companyName, C.industry, exists(select CF.companyFollowIdx ) as isFollowed,\n" +
+        String getCompanySql = "select count(distinct C.companyIdx) as countOfCompany, C.companyIdx, C.logo, C.companyName, C.industry,\n" +
+                "       exists(select CF.companyFollowIdx where CF.status = 'ACTIVE') as isFollowed,\n" +
                 "       count(E.employmentIdx) as countOfEmployment from Company C\n" +
-                "                left join CompanyFollow CF on C.companyIdx = CF.companyIdx\n" +
-                "                right join Employment E on C.companyIdx = E.companyIdx\n" +
-                "                where userIdx = 8 and C.companyName = " + condition;
+                "       left join CompanyFollow CF on C.companyIdx = CF.companyIdx\n" +
+                "       right join Employment E on C.companyIdx = E.companyIdx\n" +
+                "       where userIdx = " + userIdx + " and C.companyName = " + condition;
 
 
 

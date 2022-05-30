@@ -127,6 +127,14 @@ public class CompanyController {
         }
     }
 
+//    /**
+//     * 특정 태그로 회사 조회 API (태그 : #연봉상위, #자기계발..)
+//     * [GET]
+//     */
+//    @ResponseBody
+//    @GetMapping("/main/tag-search")
+//    public BaseResponse<>
+
 
 }
 
