@@ -191,6 +191,28 @@ public class CompanyDao {
 
     }
 
+    public List<GetCompanyByTagRes> getCompanyByTag(Long userIdx, String tag){
+        String getCompanyByTagSql = "select C.companyIdx, C.logo, C.companyName, case CFF.isFollowed when 1 then 1\n" +
+                "    else 0 end as isFollowed, CL.companyTagList from Company as C\n" +
+                "left join\n" +
+                "    (select CF.companyIdx, exists(select CF.companyFollowIdx and userIdx = " + userIdx + " and status = 'ACTIVE') as isFollowed from CompanyFollow as CF) CFF on CFF.companyIdx = C.companyIdx\n" +
+                "right join\n" +
+                "    (select CT.companyIdx from CompanyTag as CT\n" +
+                "                          where CT.name like " + tag + "\n" +
+                "group by CT.companyIdx) CTT on CTT.companyIdx = C.companyIdx\n" +
+                "left join (select CompanyTag.companyIdx, group_concat(CompanyTag.name) as companyTagList from CompanyTag\n" +
+                "                                                                       group by companyIdx) CL on CL.companyIdx = C.companyIdx";
+
+        return this.jdbcTemplate.query(getCompanyByTagSql,
+                (rs, rowNum) -> new GetCompanyByTagRes(
+                        rs.getInt("companyIdx"),
+                        rs.getString("logo"),
+                        rs.getString("companyName"),
+                        rs.getInt("isFollowed"),
+                        rs.getString("companyTagList")
+                ));
+    }
+
 
 }
 

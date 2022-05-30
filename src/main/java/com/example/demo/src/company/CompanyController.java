@@ -5,7 +5,6 @@ import com.example.demo.config.BaseResponse;
 import com.example.demo.src.company.model.*;
 
 
-import com.example.demo.src.employment.model.GetEmploymentRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -127,13 +127,21 @@ public class CompanyController {
         }
     }
 
-//    /**
-//     * 특정 태그로 회사 조회 API (태그 : #연봉상위, #자기계발..)
-//     * [GET]
-//     */
-//    @ResponseBody
-//    @GetMapping("/main/tag-search")
-//    public BaseResponse<>
+    /**
+     * 특정 태그로 회사 조회 API (태그 : #연봉상위, #자기계발..)
+     * [GET]
+     */
+    @ResponseBody
+    @GetMapping("/main/tag-search")
+    public BaseResponse<List<GetCompanyByTagRes>> getCompanyByTagRes(@RequestParam("tag") String tag){
+        try{
+            Long userIdx = jwtService.getUserIdx();
+            List<GetCompanyByTagRes> getCompanyByTagRes = companyProvider.getCompanyByTag(userIdx, tag);
+            return new BaseResponse<>(getCompanyByTagRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
 }
