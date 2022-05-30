@@ -42,7 +42,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //mysql 5버전의 경우 삭제.
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-
+    //sms
+    compile group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 
     // Web
     implementation ('org.springframework.boot:spring-boot-starter-web')
