@@ -13,6 +13,7 @@ public class GetCompanyDetailsRes {
     private int companyIdx;
     private String logo;
     private String companyName;
+    private int isFollowed;
     private String responseRate;
     private String introduction;
     private String homePageUrl;
