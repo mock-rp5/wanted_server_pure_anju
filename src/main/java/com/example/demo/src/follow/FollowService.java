@@ -37,4 +37,16 @@ public class FollowService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public void cancelFollow(int companyIdx, Long userIdx) throws BaseException {
+        try{
+            int result = followDao.cancelFollow(companyIdx, userIdx);
+
+            if(result == 0){
+                throw new BaseException(DELETION_FAIL_FOLLOW);
+            }
+        } catch(Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

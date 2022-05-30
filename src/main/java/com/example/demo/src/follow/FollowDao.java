@@ -42,5 +42,13 @@ public class FollowDao {
         }
 
     }
+
+    //북마크 취소
+    public int cancelFollow(int companyIdx, Long userIdx){
+        String cancelFollowQuery = "update CompanyFollow set status = 'NOTACTIVE' where userIdx = ? and companyIdx = ?";
+        Object[] cancelFollowParams = new Object[]{userIdx, companyIdx};
+
+        return this.jdbcTemplate.update(cancelFollowQuery, cancelFollowParams);
+    }
 }
 

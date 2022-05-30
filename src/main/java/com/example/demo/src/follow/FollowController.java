@@ -47,4 +47,23 @@ public class FollowController {
         }
 
     }
+
+    /**
+     * 채용공고 좋아요 취소 API
+     * [PATCH]
+     */
+    @ResponseBody
+    @PatchMapping("companies/{companyIdx}")
+    public BaseResponse<String> cancelFollow(@PathVariable("companyIdx") int companyIdx){
+        try{
+            Long userIdx = jwtService.getUserIdx();
+
+            followService.cancelFollow(companyIdx, userIdx);
+
+            String result = "";
+            return new BaseResponse<>(result);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
