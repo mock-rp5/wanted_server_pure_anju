@@ -52,7 +52,7 @@ public class UserService {
         Long userIdx = userDao.createUser(postUserReq);
         String jwt = jwtService.createJwt(userIdx);
 
-        profileDao.modifyProfileSpecializedField(PutSpecializedFieldReq.builder()
+        profileDao.createProfileSpecializedField(PutSpecializedFieldReq.builder()
                 .userIdx(userIdx)
                 .jobGroup(postUserReq.getJobGroup())
                 .duty(postUserReq.getDuty())
