@@ -2,13 +2,10 @@ package com.example.demo.src.company;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.company.model.GetCompanyDetailsRes;
+import com.example.demo.src.company.model.*;
 
 
-import com.example.demo.src.company.model.PatchCompanyReq;
-import com.example.demo.src.company.model.PatchCompanyUnregisterReq;
-import com.example.demo.src.company.model.PostCompanyReq;
-
+import com.example.demo.src.employment.model.GetEmploymentRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/app/companies")
+@RequestMapping("/app")
 public class CompanyController {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -42,7 +39,7 @@ public class CompanyController {
      * [GET]
      */
     @ResponseBody
-    @GetMapping("/{companyIdx}")
+    @GetMapping("/companies/{companyIdx}")
     public BaseResponse<GetCompanyDetailsRes> getCompanyDetails(@PathVariable("companyIdx") int companyIdx){
         try {
             Long userIdx = jwtService.getUserIdx();
@@ -60,7 +57,7 @@ public class CompanyController {
      * [POST]
      */
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/companies")
     public BaseResponse<String> createCompany(@Valid @RequestBody PostCompanyReq postCompanyReq)  {
 
         try{
@@ -78,7 +75,7 @@ public class CompanyController {
      * [PATCH]
      */
     @ResponseBody
-    @PatchMapping("/{companyIdx}")
+    @PatchMapping("/companies/{companyIdx}")
     public BaseResponse<String> modifyCompany(@Valid @RequestBody PatchCompanyReq patchCompanyReq,
                                               @PathVariable int companyIdx) {
         try{
@@ -98,7 +95,7 @@ public class CompanyController {
      * [PATCH]
      */
     @ResponseBody
-    @PatchMapping("/{companyIdx}/unregister")
+    @PatchMapping("/companies/{companyIdx}/unregister")
     public BaseResponse<String> deleteCompany(@Valid @RequestBody PatchCompanyUnregisterReq patchCompanyUnregisterReq,
                                               @PathVariable int companyIdx) {
         try{
@@ -113,6 +110,26 @@ public class CompanyController {
 
     }
 
+    /**
+     * 특정조건으로 회사 조회 API (조건: companyName)
+     * [GET]
+     */
+    @ResponseBody
+    @GetMapping("/main/search")
+    public BaseResponse<GetCompanyBySearchRes> getCompanyBySearch(@RequestParam("condition") String condition){
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            GetCompanyBySearchRes getCompanyBySearchRes = companyProvider.getCompanyBySearch(userIdx, condition);
+            return new BaseResponse<>(getCompanyBySearchRes);
+
+        }  catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 
 
 }
+
+
+
+
