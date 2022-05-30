@@ -31,12 +31,28 @@ public class ProfileController {
         this.jwtService = jwtService;
     }
 
+
+
+    /**
+     * 프로필 정보 조회 API
+     * [get] /app/profiles/
+     */
+    @GetMapping("")
+    public BaseResponse<GetProfileRes> retrieveProfile() {
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            return new BaseResponse<>(profileProvider.retrieveProfile(userIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
     /**
      * 전문 분야 수정 API
-     * [post] /app/profiles/specialized-field
+     * [patch] /app/profiles/specialized-field
      */
     @PatchMapping("/specialized-field")
-    public BaseResponse<BaseResponseStatus> modifyProfiles(@Valid @RequestBody PatchSpecializedFieldReq patchSpecializedFieldReq) {
+    public BaseResponse<BaseResponseStatus> modifyProfileSpecializedField(@Valid @RequestBody PatchSpecializedFieldReq patchSpecializedFieldReq) {
         try {
             Long userIdx = jwtService.getUserIdx();
             profileService.modifyProfileSpecializedField(userIdx, patchSpecializedFieldReq);
