@@ -38,7 +38,7 @@ public class ProfileController {
      * [get] /app/profiles/
      */
     @GetMapping("")
-    public BaseResponse<GetProfileRes> createUser() {
+    public BaseResponse<GetProfileRes> retrieveProfile() {
         try {
             Long userIdx = jwtService.getUserIdx();
             return new BaseResponse<>(profileProvider.retrieveProfile(userIdx));
