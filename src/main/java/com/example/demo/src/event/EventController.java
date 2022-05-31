@@ -4,6 +4,7 @@ import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.event.model.GetArticleMainRes;
 import com.example.demo.src.event.model.GetEventMainRes;
+import com.example.demo.src.event.model.GetEventRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,21 @@ public class EventController {
         try{
             List<GetArticleMainRes> getArticleMainRes = eventProvider.getArticleMain();
             return new BaseResponse<>(getArticleMainRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 진행중인 이벤트 조회 API
+     * [GET}
+     */
+    @ResponseBody
+    @GetMapping("/events")
+    public BaseResponse<List<GetEventRes>> getEvents(){
+        try{
+            List<GetEventRes> getEventRes = eventProvider.getEvents();
+            return new BaseResponse<>(getEventRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
