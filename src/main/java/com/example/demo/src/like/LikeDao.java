@@ -1,6 +1,7 @@
 package com.example.demo.src.like;
 
 
+import com.example.demo.src.like.model.GetLikeRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -56,6 +57,32 @@ public class LikeDao {
         Object[] cancelLikeParams = new Object[]{userIdx, employmentIdx};
 
         return this.jdbcTemplate.update(cancelLikeQuery,cancelLikeParams);
+    }
+
+    public List<GetLikeRes> getLikes(Long userIdx){
+        String getLikeListQuery = "select EM.employmentIdx, CIC.imgUrl, ELE.countEmploymentLike,\n" +
+                "       EM.title, CIC.companyName, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
+                "                from Employment as EM\n" +
+                "                left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city from Company as C\n" +
+                "                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                where CI.isThumbnail = true\n" +
+                "                order by C.responseRate desc) as CIC on CIC.companyIdx = EM.companyIdx\n" +
+                "                left join EmploymentBookmark EB on EM.employmentIdx = EB.employmentIdx\n" +
+                "                right join (select EL.employmentIdx from EmploymentLike as EL\n" +
+                "                            where EL.userIdx = " + userIdx + " and EL.status = 'ACTIVE') ELL on ELL.employmentIdx = EM.employmentIdx\n" +
+                "                left join (select EL.employmentIdx, count(EL.employmentLikeIdx) as countEmploymentLike from EmploymentLike as EL\n" +
+                "                            group by EL.employmentIdx) ELE on ELE.employmentIdx = EM.employmentIdx\n" +
+                "                order by EM.employmentIdx";
+
+        return this.jdbcTemplate.query(getLikeListQuery,
+                (rs, rowNum) -> new GetLikeRes(rs.getInt("employmentIdx"),
+                        rs.getString("imgUrl"),
+                        rs.getInt("countEmploymentLike"),
+                        rs.getString("title"),
+                        rs.getString("companyName"),
+                        rs.getString("city"),
+                        rs.getString("country"),
+                        rs.getInt("totalReward")));
     }
 
 
