@@ -2,6 +2,7 @@ package com.example.demo.src.employment;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.src.employment.model.GetEmploymentDetailRes;
+import com.example.demo.src.employment.model.GetEmploymentFeedRes;
 import com.example.demo.src.employment.model.GetEmploymentRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,16 @@ public class EmploymentProvider {
         try {
             GetEmploymentDetailRes getEmploymentDetailRes = employmentDao.getEmployDetails(userIdx, employmentIdx);
             return getEmploymentDetailRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //채용정보 조회
+    public GetEmploymentFeedRes getEmploymentFeed(Long userIdx) throws BaseException{
+        try{
+            GetEmploymentFeedRes getEmploymentFeedRes = employmentDao.getEmploymentFeed(userIdx);
+            return getEmploymentFeedRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }

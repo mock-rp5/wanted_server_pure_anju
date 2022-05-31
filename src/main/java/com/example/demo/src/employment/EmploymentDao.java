@@ -1,6 +1,7 @@
 package com.example.demo.src.employment;
 
 import com.example.demo.src.company.model.CompanyTag;
+import com.example.demo.src.company.model.CompanyType;
 import com.example.demo.src.employment.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,7 +43,7 @@ public class EmploymentDao {
                         rs.getString("imgUrl"),
                         rs.getString("companyName"),
                         rs.getInt("countPosition")));
-        String getEmploymentQuery = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where userIdx = " + userIdx + ") as isBookmark,EM.title, CIC.companyName, CIC.responseRate, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
+        String getEmploymentQuery = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmark,EM.title, CIC.companyName, CIC.responseRate, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
                 "from Employment as EM\n" +
                 "left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city, case when C.responseRate > 95\n" +
                 "        then '응답률 매우 높음'\n" +
@@ -138,5 +139,68 @@ public class EmploymentDao {
 
 
     }
-}
 
+    public GetEmploymentFeedRes getEmploymentFeed(Long userIdx){
+        String getEmploymentBySearchSql = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmark,\n" +
+                "                       EM.title, CIC.companyName, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
+                "                                from Employment as EM\n" +
+                "                                left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city from Company as C\n" +
+                "                                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                                where CI.isThumbnail = true\n" +
+                "                                order by C.responseRate desc) as CIC on CIC.companyIdx = EM.companyIdx\n" +
+                "                                left join EmploymentBookmark EB on EM.employmentIdx = EB.employmentIdx\n" +
+                "                                where EM.mainCategoryName = (select SF.jobGroup from SpecializedField as SF where SF.userIdx = " + userIdx + ")";
+
+        String getCompanyType1Sql = "select C.companyIdx, C.logo, CI.imgUrl, C.companyName, C.industry, case CFF.isFollowed when 1 then 1\n" +
+                "                    else 0 end as isFollowed from Company as C\n" +
+                "                left join\n" +
+                "                    (select CF.companyIdx, exists(select CF.companyFollowIdx and userIdx = " + userIdx + " and status = 'ACTIVE') as isFollowed from CompanyFollow as CF) CFF on CFF.companyIdx = C.companyIdx\n" +
+                "                right join\n" +
+                "                    (select CT.companyIdx from CompanyTag as CT\n" +
+                "                                          where CT.name like '%성장'\n" +
+                "                group by CT.companyIdx) CTT on CTT.companyIdx = C.companyIdx\n" +
+                "                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                where CI.isThumbnail = true";
+
+        String getCompanyType2Sql = "select C.companyIdx, C.logo, CI.imgUrl, C.companyName, C.industry, case CFF.isFollowed when 1 then 1\n" +
+                "                    else 0 end as isFollowed from Company as C\n" +
+                "                left join\n" +
+                "                    (select CF.companyIdx, exists(select CF.companyFollowIdx and userIdx = " + userIdx + " and status = 'ACTIVE') as isFollowed from CompanyFollow as CF) CFF on CFF.companyIdx = C.companyIdx\n" +
+                "                right join\n" +
+                "                    (select CT.companyIdx from CompanyTag as CT\n" +
+                "                                          where CT.name like '%50명이하'\n" +
+                "                group by CT.companyIdx) CTT on CTT.companyIdx = C.companyIdx\n" +
+                "                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                where CI.isThumbnail = true";
+
+        List<EmploymentBySearch> employmentBySearchList = this.jdbcTemplate.query(getEmploymentBySearchSql,
+                (rs, rowNum) -> new EmploymentBySearch(rs.getInt("employmentIdx"),
+                        rs.getString("imgUrl"),
+                        rs.getInt("isBookmark"),
+                        rs.getString("title"),
+                        rs.getString("companyName"),
+                        rs.getString("city"),
+                        rs.getString("country"),
+                        rs.getInt("totalReward")));
+
+        List<CompanyType> companyTypeList1 = this.jdbcTemplate.query(getCompanyType1Sql,
+                (rs, rowNUm) -> new CompanyType(rs.getInt("companyIdx"),
+                        rs.getString("logo"),
+                        rs.getString("imgUrl"),
+                        rs.getString("companyName"),
+                        rs.getString("industry"),
+                        rs.getInt("isFollowed")));
+
+        List<CompanyType> companyTypeList2 = this.jdbcTemplate.query(getCompanyType2Sql,
+                (rs, rowNUm) -> new CompanyType(rs.getInt("companyIdx"),
+                        rs.getString("logo"),
+                        rs.getString("imgUrl"),
+                        rs.getString("companyName"),
+                        rs.getString("industry"),
+                        rs.getInt("isFollowed")));
+
+        GetEmploymentFeedRes getEmploymentFeedRes = new GetEmploymentFeedRes(employmentBySearchList, companyTypeList1, companyTypeList2);
+
+        return getEmploymentFeedRes;
+    }
+}

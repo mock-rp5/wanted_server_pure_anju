@@ -3,6 +3,7 @@ package com.example.demo.src.event;
 import com.example.demo.config.BaseException;
 import com.example.demo.src.event.model.GetArticleMainRes;
 import com.example.demo.src.event.model.GetEventMainRes;
+import com.example.demo.src.event.model.GetEventRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,15 @@ public class EventProvider {
         try{
             List<GetArticleMainRes> getArticleMainRes = eventDao.getArticleMain();
             return getArticleMainRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetEventRes> getEvents() throws BaseException{
+        try{
+            List<GetEventRes> getEventRes = eventDao.getEvents();
+            return getEventRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
