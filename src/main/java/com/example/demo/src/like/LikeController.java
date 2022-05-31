@@ -4,6 +4,7 @@ package com.example.demo.src.like;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 
+import com.example.demo.src.like.model.GetLikeRes;
 import com.example.demo.src.like.model.PostLikeRes;
 import com.example.demo.utils.JwtService;
 
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.example.demo.config.BaseResponseStatus.POST_BOOKMARK_FAIL;
 
@@ -58,8 +61,9 @@ public class LikeController {
 
     /**
      * 채용공고 좋아요 취소 API
-     * [PATCH'
+     * [PATCH]
      */
+    @ResponseBody
     @PatchMapping("/employments/{employmentIdx}")
     public BaseResponse<String> cancelLike(@PathVariable("employmentIdx") int employmentIdx){
 
@@ -75,4 +79,22 @@ public class LikeController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 채용공고 좋아요 리스트 조회 API
+     * [GET]
+     */
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<List<GetLikeRes>> getLikes(){
+        try{
+            Long userIdx = jwtService.getUserIdx();
+            List<GetLikeRes> getLikesRes = likeProvider.getLikes(userIdx);
+
+            return new BaseResponse<>(getLikesRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
 }
