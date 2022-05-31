@@ -3,6 +3,7 @@ package com.example.demo.src.employment;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
 import com.example.demo.src.employment.model.GetEmploymentDetailRes;
+import com.example.demo.src.employment.model.GetEmploymentFeedRes;
 import com.example.demo.src.employment.model.GetEmploymentRes;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
@@ -61,6 +62,22 @@ public class EmploymentController {
             Long userIdx = jwtService.getUserIdx();
             GetEmploymentDetailRes getEmploymentDetailRes = employmentProvider.getEmploymentDetails(userIdx, employmentIdx);
             return new BaseResponse<>(getEmploymentDetailRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 채용정보 조회 API
+     * [GET]
+     */
+    @ResponseBody
+    @GetMapping("/jobsfeed")
+    public BaseResponse<GetEmploymentFeedRes> getEmploymentFeed(){
+        try{
+            Long userIdx = jwtService.getUserIdx();
+            GetEmploymentFeedRes getEmploymentFeedRes = employmentProvider.getEmploymentFeed(userIdx);
+            return new BaseResponse<>(getEmploymentFeedRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
