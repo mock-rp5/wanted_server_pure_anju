@@ -1,7 +1,9 @@
 package com.example.demo.src.apply;
 
 import com.example.demo.src.apply.model.GetApplyRes;
+import com.example.demo.src.apply.model.PatchApplyReq;
 import com.example.demo.src.apply.model.PostApplyReq;
+import com.example.demo.src.bookmark.model.PostBookmarkRes;
 import com.example.demo.src.resume.model.GetResumeRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -91,6 +93,14 @@ public class ApplyDao {
         Object[] createApplicationParams = new Object[]{userIdx, employmentIdx, postApplyReq.getResumeIdx(), postApplyReq.getStatus()};
         this.jdbcTemplate.update(createApplicationQuery, createApplicationParams);
 
+    }
+
+    //지원 수정
+    public void updateApplication(PatchApplyReq patchApplyReq, Long userIdx, int employmentIdx){
+        String updateApplicationQuery = "update Apply set status = ? where userIdx = ? and employmentIdx = ?";
+        Object[] updateApplicationParams = new Object[]{patchApplyReq.getStatus(), userIdx, employmentIdx};
+
+        this.jdbcTemplate.update(updateApplicationQuery, updateApplicationParams);
     }
 
 }
