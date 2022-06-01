@@ -21,3 +21,7 @@ spring:
     username: admin # 만약 따로 설정하지 않으셨다면 기본값은 admin 입니다
     password: gmo3086* # 비밀번호를 입력해주세요!
     driver-class-name: com.mysql.cj.jdbc.Driver
+ncp:
+  access_key: ZJvZ6Src7OnSN3JTrg7g
+  service_id: ncp:sms:kr:285495085176:springboot-sms
+  secret_key: 5aZ0mGV0YvKfB2RexnuCVfd4CALAQh2bnS1B9kWG
