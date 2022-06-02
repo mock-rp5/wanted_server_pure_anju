@@ -19,9 +19,13 @@
 </p>
 
 
-## ERD
 
-<img width="500" height="300" src="https://user-images.githubusercontent.com/70481813/169830513-aa998edd-9219-4cc1-9015-312bd42c0765.png">
+
+## ERD
+<img width="500" height="300" src="https://user-images.githubusercontent.com/74492426/171628759-592a7ebd-8689-4c4a-9ce1-1daac59e2408.png">
+
+## Architecture
+![Architecture](https://user-images.githubusercontent.com/74492426/171627674-8b66a197-b380-487e-80a1-13c93edac510.png)
 
 ## Components
 |분류|내용|
@@ -175,3 +179,19 @@
 
 </details>
 
+## 📝 이슈 
+<details>
+<summary>개발 이슈 정리</summary>
+
+## 안주
+  
+  
+  
+  
+  
+## 퓨어
+  
+  
+  
+  
+</details>
