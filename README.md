@@ -74,14 +74,14 @@
 안주
 - 회원가입 API 구현
 - 로그인 API 구현
-- 프론트와 회의 진행
+- 프론트와 회의 진행 
 - 1차 피드백 받음
 
 퓨어
 - git pull 에러 해결
 - git merge conflict 에러 해결
-- 프론트와 회의 진행
-- 1차 피드백 
+- 프론트와 회의 진행 : 리스트업한 API 중 주요 API먼저 구현하기로 함.
+- 1차 피드백 : ERD 테이블 칼럼값 중 카멜케이스 안된 것 카멜케이스로 수정, API Method 중 DELETE를 PATCH로 수정
  
 ## 2022-05-24(화)
 안주
@@ -153,7 +153,7 @@
 - 회사 팔로우 유무 버그 해결
 - 특정조건으로 회사 조회 API 구현
 - 특정 태그로 회사 조회 API 구현
-- 프론트와 회의 진행
+- 프론트와 회의 진행 : 프론트분께서 이제 막 퍼블리싱을 끝냄, 주요 화면 관련 API 관련 회의
   
 ## 2022-05-31(화)
 안주
@@ -176,7 +176,17 @@
 - 카카오 OAuth 로그인 API 구현
 - SMS로 4자리 인증번호 API(네이버 sens이용) 구현
 - ERD 테이블 수정
+- 2차 피드백 : ERD 각 status comment 수정, Alarm 테이블과 User 테이블 연결, query string이 포함된 API URL 구체화 
 
+## 2022-06-02(목)
+
+  
+  
+
+퓨어
+- 팔로우, 좋아요 validation 추가
+- 검색어 validation 추가 
+- api 명세서 수정 및 보완
 </details>
 
 ## 📝 이슈 
@@ -190,7 +200,31 @@
   
   
 ## 퓨어
+1. ec2서버에서 git pull 할 때 에러(2022-05-23)
+- 문제 : 새롭게 추가된 기능을 포함시키기 위해 원격 리포지토리(remote repository)에서 소스를 땡겨 올때 다음과 같은 에러가 발생했다.
+```
+error: Your local changes to the following files would be overwritten by merge:
+         logs/app.log
+please commit your changes or stash them before you merge.
+```
+- 해결 : merge 하기 전에 변경사항을 commit 하거나 stash한다.
+
+2. ec2서버에 배포(2022-05-23)
+- 문제 : 원격 접속이 끊어지면 서버가 죽어버린다.
+- 해결 : nohum을 통해서 원격 접속이 끊어져도 백그라운드에서 알아서 돌아갈 수 있도록 했다.
+         jar 파일을 동작시킬 때의 명령어의 앞, 뒤에 nohup, &만 붙여주면 된다.
   
+3. 브랜치 생성 에러(2022-05-25)
+- 문제 : 로컬에서 브랜치를 생성하고 원격 리포지토리에 적용시키려 했지만 실패했다.
+- 해결 : 원격 리포지토리에서 브랜치를 먼저 생성한 후 로컬에서 
+```
+git clone -b {branch_name} --single-branch {저장소 URL}
+```
+을 통해 해당 브랜치만 따온다.
+  
+4. boolean 타입 validation 에러
+- 문제 : 회사 생성 API 구현 중 boolean타입의 이용약관 및 가입동의 부분을 @AsserTrue 로 validation할 때 에러가 발생했다.
+- 해결 : boolean대신에 Boolean으로 변경했다.
   
   
   
