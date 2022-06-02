@@ -84,7 +84,7 @@ public class EmploymentDao {
                 "                        then null\n" +
                 "                           end as responseRate, C.city, C.country, EE.recommenderReward, EE.applicantReward,\n" +
                 "                                                exists(select distinct EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmarked,\n" +
-                "                                                exists(select AA.employmentIdx) as isApplied,\n" +
+                "                                                exists(select AA.employmentIdx where AA.employmentIdx = " + employmentIdx + ") as isApplied,\n" +
                 "                                                ELL.countLike,\n" +
                 "                                                       EE.introduction, EE.primaryTask, EE.qualification,\n" +
                 "                       EE.preferentialTreatment, EE.welfare, date_format(EE.deadLinedAt, '%Y.%m.%d') as deadLine, EE.workArea from Company as C\n" +
