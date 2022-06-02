@@ -226,7 +226,7 @@ git clone -b {branch_name} --single-branch {저장소 URL}
 - 문제 : 회사 생성 API 구현 중 boolean타입의 이용약관 및 가입동의 부분을 @AsserTrue 로 validation할 때 에러가 발생했다.
 - 해결 : boolean대신에 Boolean으로 변경했다.
   
-5. postman에서 데이터베이스 연결 실패 에러
+5. postman에서 데이터베이스 연결 실패 에러(2022-05-27)
 - 문제 : FollowService단에서 해당 유저가 회사를 팔로우하고 있는지 status로 받아와서 0이아니면 이미 팔로우하고 있다고 처리하여 Exception으로 날려주고  0이라면 팔로우하는 비즈니스 로직을 다음과같이 구성했다.
 ```
 public void createFollow(int companyIdx, Long userIdx) throws BaseException {
