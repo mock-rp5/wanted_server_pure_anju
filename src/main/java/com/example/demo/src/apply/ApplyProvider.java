@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class ApplyProvider {
@@ -18,5 +20,9 @@ public class ApplyProvider {
 
     public GetApplyRes retrieveApply(Long userIdx) throws BaseException {
         return applyDao.retrieveApply(userIdx);
+    }
+
+    public List<GetApplyRes.GetApplyWritingRes> retrieveApplyWriting(Long userIdx) throws BaseException {
+       return applyDao.retrieveApplyWriting(userIdx);
     }
 }

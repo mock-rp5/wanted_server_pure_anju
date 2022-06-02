@@ -19,9 +19,13 @@
 </p>
 
 
-## ERD
 
-<img width="500" height="300" src="https://user-images.githubusercontent.com/70481813/169830513-aa998edd-9219-4cc1-9015-312bd42c0765.png">
+
+## ERD
+<img width="500" height="300" src="https://user-images.githubusercontent.com/74492426/171628759-592a7ebd-8689-4c4a-9ce1-1daac59e2408.png">
+
+## Architecture
+![Architecture](https://user-images.githubusercontent.com/74492426/171627674-8b66a197-b380-487e-80a1-13c93edac510.png)
 
 ## Components
 |분류|내용|
@@ -49,7 +53,8 @@
 <summary>개발 일지(2022년 5월 21일 ~ 06월 03일)</summary>
 
 ## 2022-05-21(토)
-안주: ERD설계(80%진행)
+안주
+- ERD설계(80%진행)
   
 퓨어
 - ERD설계(80%진행)
@@ -160,6 +165,33 @@
 - 채용정보 조회 API 구현
 - 진행중인 이벤트 조회 API 구현
 - 채용공고 좋아요 리스트 조회 API 구현
+  
+## 2022-06-01(수)
+안주
+- ERD 수정에 따른 몇몇개의 API 수정 중
+- 마무리 작업을 위한 API 명세서 다듬기
+- 마무리 지을 작업 정리 중(남은 API 개발 및 영상 과정 고민)
+ 
+퓨어
+- 카카오 OAuth 로그인 API 구현
+- SMS로 4자리 인증번호 API(네이버 sens이용) 구현
+- ERD 테이블 수정
 
 </details>
 
+## 📝 이슈 
+<details>
+<summary>개발 이슈 정리</summary>
+
+## 안주
+  
+  
+  
+  
+  
+## 퓨어
+  
+  
+  
+  
+</details>

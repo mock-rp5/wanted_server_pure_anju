@@ -2,13 +2,21 @@ package com.example.demo.src.apply;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
+import com.example.demo.config.BaseResponseStatus;
+import com.example.demo.src.apply.model.GetApplyRes;
+import com.example.demo.utils.JwtService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 import com.example.demo.src.apply.model.GetApplyRes;
 import com.example.demo.src.apply.model.PatchApplyReq;
 import com.example.demo.src.apply.model.PostApplyReq;
 import com.example.demo.utils.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
@@ -32,10 +40,24 @@ public class ApplyController {
      * [GET] /app/applies
      */
     @GetMapping("")
-    public BaseResponse<GetApplyRes> retrieveApply(){
+    public BaseResponse<GetApplyRes> retrieveApply() {
         try {
             Long userIdx = jwtService.getUserIdx();
             return new BaseResponse<>(applyProvider.retrieveApply(userIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 작성중인 지원현황 조회 API
+     * [GET] /app/applies/write
+     */
+    @GetMapping("/write")
+    public BaseResponse<List<GetApplyRes.GetApplyWritingRes>> retrieveApplyWriting() {
+        try {
+            Long userIdx = jwtService.getUserIdx();
+            return new BaseResponse<>(applyProvider.retrieveApplyWriting(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
@@ -47,13 +69,13 @@ public class ApplyController {
      */
     @ResponseBody
     @PostMapping("/employments/{employmentIdx}")
-    public BaseResponse<String> createApplication(@Valid @RequestBody PostApplyReq postApplyReq, @PathVariable("employmentIdx") int employmentIdx){
-        try{
+    public BaseResponse<String> createApplication(@Valid @RequestBody PostApplyReq postApplyReq, @PathVariable("employmentIdx") int employmentIdx) {
+        try {
 
             Long userIdx = jwtService.getUserIdx();
 
             String result = "";
-            if (postApplyReq.getStatus().equals("complete")){
+            if (postApplyReq.getStatus().equals("complete")) {
                 result = "지원완료";
 
             }
@@ -71,19 +93,17 @@ public class ApplyController {
      */
     @ResponseBody
     @PatchMapping("/employments/{employmentIdx}")
-    public BaseResponse<String> updateApplication(@RequestBody PatchApplyReq patchApplyReq, @PathVariable("employmentIdx") int employmentIdx){
-        try{
+    public BaseResponse<String> updateApplication(@RequestBody PatchApplyReq patchApplyReq, @PathVariable("employmentIdx") int employmentIdx) {
+        try {
 
             Long userIdx = jwtService.getUserIdx();
 
             String result = "";
-            if (patchApplyReq.getStatus().equals("pass")){
+            if (patchApplyReq.getStatus().equals("pass")) {
                 result = "서류통과";
-            }
-            else if (patchApplyReq.getStatus().equals("accept")){
+            } else if (patchApplyReq.getStatus().equals("accept")) {
                 result = "최종합격";
-            }
-            else {
+            } else {
                 result = "불합격";
             }
 
