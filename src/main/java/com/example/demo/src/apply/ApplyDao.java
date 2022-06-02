@@ -84,6 +84,7 @@ public class ApplyDao {
         return getApplyRes;
     }
 
+    // 작성 중인 지원 현황 조회
     public List<GetApplyRes.GetApplyWritingRes> retrieveApplyWriting(Long userIdx) {
         String retrieveApplyWritingQuery = "select logo,\n" +
                 "       companyName,\n" +
@@ -102,12 +103,12 @@ public class ApplyDao {
         Object[] retrieveApplyWritingParams = new Object[]{userIdx};
         List<Map<String, Object>> retrieveApplyWritingList = this.jdbcTemplate.queryForList(retrieveApplyWritingQuery, retrieveApplyWritingParams);
         List<GetApplyRes.GetApplyWritingRes> getApplyWritingRes = new ArrayList<>();
-        System.out.println(retrieveApplyWritingList.toString());
         for (Map<String, Object> retrieveApplyWriting : retrieveApplyWritingList) {
             getApplyWritingRes.add(
                     GetApplyRes.GetApplyWritingRes.builder()
                             .logo((String) retrieveApplyWriting.get("logo"))
                             .name((String) retrieveApplyWriting.get("companyName"))
+                            .position((String) retrieveApplyWriting.get("title"))
                             .writingTime(LocalDate.parse(Objects.toString(retrieveApplyWriting.get("createdAt")).substring(0, 10)))
                             .status((String) retrieveApplyWriting.get("status"))
                             .recommendStatus("없음")
