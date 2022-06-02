@@ -186,7 +186,7 @@
 퓨어
 - 팔로우, 좋아요 validation 추가
 - 검색어 validation 추가 
-- api 명세서 수정 및 보완
+- API 명세서 수정 및 보완
 </details>
 
 ## 📝 이슈 
@@ -222,7 +222,7 @@ git clone -b {branch_name} --single-branch {저장소 URL}
 ```
 을 통해 해당 브랜치만 따온다.
   
-4. boolean 타입 validation 에러
+4. boolean 타입 validation 에러(2022-05-26)
 - 문제 : 회사 생성 API 구현 중 boolean타입의 이용약관 및 가입동의 부분을 @AsserTrue 로 validation할 때 에러가 발생했다.
 - 해결 : boolean대신에 Boolean으로 변경했다.
   
