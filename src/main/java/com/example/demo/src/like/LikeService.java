@@ -45,6 +45,11 @@ public class LikeService {
     }
 
     public void cancelLike(int employmentIdx, Long userIdx) throws BaseException{
+        int status = likeDao.getLikeEmployment(employmentIdx, userIdx);
+        if(status == 0){
+            throw new BaseException(PATCH_LIKE_NOT_EXISTS);
+        }
+
         try{
             int result = likeDao.cancelLike(employmentIdx, userIdx);
 
