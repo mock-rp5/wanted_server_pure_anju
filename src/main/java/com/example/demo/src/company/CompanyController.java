@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.example.demo.config.BaseResponseStatus.GET_SEARCH_FAIL;
+
 
 @RestController
 @RequestMapping("/app")
@@ -116,7 +118,11 @@ public class CompanyController {
      */
     @ResponseBody
     @GetMapping("/main/search")
-    public BaseResponse<GetCompanyBySearchRes> getCompanyBySearch(@RequestParam("condition") String condition){
+    public BaseResponse<GetCompanyBySearchRes> getCompanyBySearch(@RequestParam(value = "condition", required = false) String condition){
+        if(condition.equals("")){
+            return new BaseResponse<>(GET_SEARCH_FAIL);
+        }
+
         try {
             Long userIdx = jwtService.getUserIdx();
             GetCompanyBySearchRes getCompanyBySearchRes = companyProvider.getCompanyBySearch(userIdx, condition);
@@ -133,7 +139,11 @@ public class CompanyController {
      */
     @ResponseBody
     @GetMapping("/main/tag-search")
-    public BaseResponse<List<GetCompanyByTagRes>> getCompanyByTagRes(@RequestParam("tag") String tag){
+    public BaseResponse<List<GetCompanyByTagRes>> getCompanyByTagRes(@RequestParam(value = "tag", required = false) String tag){
+        if(tag.equals("")){
+            return new BaseResponse<>(GET_SEARCH_FAIL);
+        }
+
         try{
             Long userIdx = jwtService.getUserIdx();
             List<GetCompanyByTagRes> getCompanyByTagRes = companyProvider.getCompanyByTag(userIdx, tag);

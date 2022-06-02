@@ -38,7 +38,8 @@ public enum BaseResponseStatus {
     //kakao
     OAUTH_KAKAO_EMPTY_TOKEN(false, 2030, "access token을 입력하세요."),
 
-
+    //search
+    GET_SEARCH_FAIL(false, 2040, "검색어를 입력해주세요."),
 
 
 
