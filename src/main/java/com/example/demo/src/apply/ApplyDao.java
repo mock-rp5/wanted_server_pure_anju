@@ -3,8 +3,6 @@ package com.example.demo.src.apply;
 import com.example.demo.src.apply.model.GetApplyRes;
 import com.example.demo.src.apply.model.PatchApplyReq;
 import com.example.demo.src.apply.model.PostApplyReq;
-import com.example.demo.src.bookmark.model.PostBookmarkRes;
-import com.example.demo.src.resume.model.GetResumeRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -31,10 +29,10 @@ public class ApplyDao {
 
         // 지원 카운트 조회
         String retrieveApplyCountQuery = "select count(*)                                 as total,\n" +
-                "       count(case when A.status = 0 then 1 end) as applicationCompleted,\n" +
-                "       count(case when A.status = 1 then 1 end) as documentPass,\n" +
-                "       count(case when A.status = 2 then 1 end) as finalPass,\n" +
-                "       count(case when A.status = 3 then 1 end) as fail\n" +
+                "       count(case when A.status = 'complete' then 1 end) as applicationCompleted,\n" +
+                "       count(case when A.status = 'pass' then 1 end) as documentPass,\n" +
+                "       count(case when A.status = 'accept' then 1 end) as finalPass,\n" +
+                "       count(case when A.status = 'fail' then 1 end) as fail\n" +
                 "from Apply A\n" +
                 "where userIdx = ?\n" +
                 "group by A.status\n";
@@ -44,11 +42,12 @@ public class ApplyDao {
 
         if (!retrieveApplyCountList.isEmpty()) {
             getApplyRes = GetApplyRes.builder()
-                    .total((Integer) retrieveApplyCountList.get(0).get("total"))
-                    .applicationCompleted((Integer) retrieveApplyCountList.get(0).get("applicationCompleted"))
-                    .documentPass((Integer) retrieveApplyCountList.get(0).get("documentPass"))
-                    .finalPass((Integer) retrieveApplyCountList.get(0).get("finalPass"))
-                    .fail((Integer) retrieveApplyCountList.get(0).get("fail"))
+                    .total((Long) retrieveApplyCountList.get(0).get("total"))
+                    .applicationCompleted((Long) retrieveApplyCountList.get(0).get("applicationCompleted"))
+                    .documentPass((Long) retrieveApplyCountList.get(0).get("documentPass"))
+                    .finalPass((Long) retrieveApplyCountList.get(0).get("finalPass"))
+                    .fail((Long) retrieveApplyCountList.get(0).get("fail"))
+                    .companyList(new ArrayList<>())
                     .build();
         }
 
@@ -58,10 +57,10 @@ public class ApplyDao {
                 "       title,\n" +
                 "       A.createdAt,\n" +
                 "       case\n" +
-                "           when A.status = 0 then '지원완료'\n" +
-                "           when A.status = 1 then '서류통과'\n" +
-                "           when A.status = 2 then '최종합격'\n" +
-                "           when A.status = 3 then '불합격' end as status\n" +
+                "           when A.status = 'complete' then '지원완료'\n" +
+                "           when A.status = 'pass' then '서류통과'\n" +
+                "           when A.status = 'accept' then '최종합격'\n" +
+                "           when A.status = 'fail' then '불합격' end as status\n" +
                 "from Apply A\n" +
                 "         join Employment E on A.employmentIdx = E.employmentIdx\n" +
                 "         join Company C on E.companyIdx = C.companyIdx\n" +
@@ -69,7 +68,6 @@ public class ApplyDao {
                 "order by  A.updatedAt desc";
         Object[] retrieveApplyCompanyParams = new Object[]{userIdx};
         List<Map<String, Object>> retrieveApplyCompanyList = this.jdbcTemplate.queryForList(retrieveApplyCompanyQuery, retrieveApplyCompanyParams);
-
         for (Map<String, Object> retrieveApplyCompany : retrieveApplyCompanyList) {
             getApplyRes.getCompanyList().add(
                     GetApplyRes.Company.builder()
@@ -86,20 +84,49 @@ public class ApplyDao {
         return getApplyRes;
     }
 
-
+    public List<GetApplyRes.GetApplyWritingRes> retrieveApplyWriting(Long userIdx) {
+        String retrieveApplyWritingQuery = "select logo,\n" +
+                "       companyName,\n" +
+                "       title,\n" +
+                "       A.createdAt,\n" +
+                "       case\n" +
+                "           when A.status = 'complete' then '지원완료'\n" +
+                "           when A.status = 'pass' then '서류통과'\n" +
+                "           when A.status = 'accept' then '최종합격'\n" +
+                "           when A.status = 'fail' then '불합격' end as status\n" +
+                "from Apply A\n" +
+                "         join Employment E on A.employmentIdx = E.employmentIdx\n" +
+                "         join Company C on E.companyIdx = C.companyIdx\n" +
+                "where UserIdx = ?\n" +
+                "order by  A.updatedAt desc";
+        Object[] retrieveApplyWritingParams = new Object[]{userIdx};
+        List<Map<String, Object>> retrieveApplyWritingList = this.jdbcTemplate.queryForList(retrieveApplyWritingQuery, retrieveApplyWritingParams);
+        List<GetApplyRes.GetApplyWritingRes> getApplyWritingRes = new ArrayList<>();
+        System.out.println(retrieveApplyWritingList.toString());
+        for (Map<String, Object> retrieveApplyWriting : retrieveApplyWritingList) {
+            getApplyWritingRes.add(
+                    GetApplyRes.GetApplyWritingRes.builder()
+                            .logo((String) retrieveApplyWriting.get("logo"))
+                            .name((String) retrieveApplyWriting.get("companyName"))
+                            .writingTime(LocalDate.parse(Objects.toString(retrieveApplyWriting.get("createdAt")).substring(0, 10)))
+                            .status((String) retrieveApplyWriting.get("status"))
+                            .recommendStatus("없음")
+                            .build()
+            );
+        }
+        return getApplyWritingRes;
+    }
     //지원 생성
     public void createApplication(PostApplyReq postApplyReq, Long userIdx, int employmentIdx){
         String createApplicationQuery = "insert into Apply (userIdx, employmentIdx, resumeIdx, status) values (?, ?, ?, ?)";
         Object[] createApplicationParams = new Object[]{userIdx, employmentIdx, postApplyReq.getResumeIdx(), postApplyReq.getStatus()};
         this.jdbcTemplate.update(createApplicationQuery, createApplicationParams);
-
     }
 
     //지원 수정
     public void updateApplication(PatchApplyReq patchApplyReq, Long userIdx, int employmentIdx){
         String updateApplicationQuery = "update Apply set status = ? where userIdx = ? and employmentIdx = ?";
         Object[] updateApplicationParams = new Object[]{patchApplyReq.getStatus(), userIdx, employmentIdx};
-
         this.jdbcTemplate.update(updateApplicationQuery, updateApplicationParams);
     }
 

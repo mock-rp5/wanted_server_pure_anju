@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class GetApplyRes {
-    private int total;
-    private int applicationCompleted;
-    private int documentPass;
-    private int finalPass;
-    private int fail;
+    private Long total;
+    private Long applicationCompleted;
+    private Long documentPass;
+    private Long finalPass;
+    private Long fail;
     private List<Company> companyList = new ArrayList<>();
 
     @Data
@@ -33,6 +33,18 @@ public class GetApplyRes {
         private String status;
         private String recommendStatus;
         private String compensationApplication;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class GetApplyWritingRes{
+        private String logo;
+        private String name;
+        private LocalDate writingTime;
+        private String status;
+        private String recommendStatus;
     }
 
 }
