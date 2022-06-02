@@ -21,16 +21,16 @@ public class CompanyDao {
     }
 
     public GetCompanyDetailsRes getCompanyDetails(Long userIdx, int companyIdx){
-        String getCompanyDetailsQuery = "select C.companyIdx, C.logo, C.companyName, exists(select CF.companyFollowIdx ) as isFollowed, case when C.responseRate > 95\n" +
-                "                then '응답률 매우 높음'\n" +
-                "                when C.responseRate > 90\n" +
-                "                then '응답률 높음'\n" +
-                "                when C.responseRate < 50\n" +
-                "                then null\n" +
-                "                end as responseRate, C.introduction, C.homePageUrl, C.newAverageSalary, C.totalAverageSalay,\n" +
-                "                C.employeeNumber from Company C\n" +
-                "left join CompanyFollow CF on C.companyIdx = CF.companyIdx\n" +
-                "where userIdx = " + userIdx + " and C.companyIdx = " + companyIdx;
+        String getCompanyDetailsQuery = "select C.companyIdx, C.logo, C.companyName, exists(select CFF.companyFollowIdx where CFF.userIdx = " + userIdx + " and CFF.status = 'ACTIVE') as isFollowed, case when C.responseRate > 95\n" +
+                "                              then '응답률 매우 높음'\n" +
+                "                               when C.responseRate > 90\n" +
+                "                                then '응답률 높음'\n" +
+                "                                when C.responseRate < 50\n" +
+                "                                then null\n" +
+                "                                end as responseRate, C.introduction, C.homePageUrl, C.newAverageSalary, C.totalAverageSalay,\n" +
+                "                                C.employeeNumber from Company C\n" +
+                "                left join (select CF.userIdx, CF.companyIdx, CF.companyFollowIdx, CF.status from CompanyFollow CF) as CFF on C.companyIdx = CFF.companyIdx\n" +
+                "                where C.companyIdx = " + companyIdx;
 
 
 
@@ -177,17 +177,17 @@ public class CompanyDao {
                         rs.getString("companyName"),
                         rs.getString("industry"),
                         rs.getInt("isFollowed"),
-                                        rs.getInt("countOfEmployment"),
-                                        this.jdbcTemplate.query(getEmploymentListSql,
-                                        (rs2, rowNum2) -> new EmploymentBySearch(rs2.getInt("employmentIdx"),
-                                                rs2.getString("imgUrl"),
-                                                rs2.getInt("isBookmark"),
-                                                rs2.getString("title"),
-                                                rs2.getString("companyName"),
-                                                rs2.getString("city"),
-                                                rs2.getString("country"),
-                                                rs2.getInt("totalReward"))
-                                        )));
+                        rs.getInt("countOfEmployment"),
+                        this.jdbcTemplate.query(getEmploymentListSql,
+                                (rs2, rowNum2) -> new EmploymentBySearch(rs2.getInt("employmentIdx"),
+                                        rs2.getString("imgUrl"),
+                                        rs2.getInt("isBookmark"),
+                                        rs2.getString("title"),
+                                        rs2.getString("companyName"),
+                                        rs2.getString("city"),
+                                        rs2.getString("country"),
+                                        rs2.getInt("totalReward"))
+                        )));
 
     }
 
@@ -212,7 +212,4 @@ public class CompanyDao {
                         rs.getString("companyTagList")
                 ));
     }
-
-
 }
-
