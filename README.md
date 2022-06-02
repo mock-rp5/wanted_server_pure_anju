@@ -226,6 +226,44 @@ git clone -b {branch_name} --single-branch {저장소 URL}
 - 문제 : 회사 생성 API 구현 중 boolean타입의 이용약관 및 가입동의 부분을 @AsserTrue 로 validation할 때 에러가 발생했다.
 - 해결 : boolean대신에 Boolean으로 변경했다.
   
+5. postman에서 데이터베이스 연결 실패 에러
+- 문제 : FollowService단에서 해당 유저가 회사를 팔로우하고 있는지 status로 받아와서 0이아니면 이미 팔로우하고 있다고 처리하여 Exception으로 날려주고  0이라면 팔로우하는 비즈니스 로직을 다음과같이 구성했다.
+```
+public void createFollow(int companyIdx, Long userIdx) throws BaseException {
+        int status = followDao.getFollowCompany(companyIdx, userIdx);
+        System.out.println(status);
+        if(status != 0 ){
+            throw new BaseException(POST_FOLLOW_EXISTS);
+        }
+        try{
+            followDao.createFollow(companyIdx, userIdx);
+
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+```
+
+FollowDao에서의 쿼리문은 다음과 같다.
+```
+public int getFollowCompany(int companyIdx, Long userIdx){
+        String GetFollowCompanyQuery = "select count(companyFollowIdx) from CompanyFollow where userIdx = ? and companyIdx = ? and status = 'ACTIVE'";
+        Object[] GetFollowCompanyParams = new Object[]{userIdx, companyIdx};
+        return this.jdbcTemplate.queryForObject(GetFollowCompanyQuery, int.class,GetFollowCompanyParams);
+    }
+```
+
+하지만 실행해보면 실제 db상에서 팔로우하고 있음에도 불구하고 status가 0으로 출력되고 postman에서 다음과 같이 데이터베이스 연결에 실패하였다라고 출력됐다.
+```
+{
+  "isSuccess" : "false",
+  "code" : 4000,
+  "message" : "데이터베이스 연결에 실패하였습니다."
+}
+```
+- 해결 : 해당 비즈니스 로직과 코드 구성은 Like(좋아요)와 똑같지만 Like관련 API는 문제없이 출력되는 것을 확인하고 해당 로직과 구성은 문제없다고 판단했다. 
+         이에 따라 해당 이슈를 팀장님께 보고드렸지만 해결방안을 찾지 못했다. 결국, 다른 작업을 하다가 이틀 뒤에 다시 실행해보니 정상적으로 출력됐다.
+
   
   
 </details>
