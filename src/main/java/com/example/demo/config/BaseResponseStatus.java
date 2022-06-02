@@ -35,7 +35,8 @@ public enum BaseResponseStatus {
     // resume
     RESUME_EMPTY_RESUME_ID(false, 2020, "이력서 아이디 값을 확인해주세요."),
 
-
+    //kakao
+    OAUTH_KAKAO_EMPTY_TOKEN(false, 2030, "access token을 입력하세요."),
 
 
 
@@ -70,6 +71,9 @@ public enum BaseResponseStatus {
     POST_FOLLOW_EXISTS(false, 3070, "이미 팔로우 중입니다."),
     DELETION_FAIL_FOLLOW(false, 3071, "팔로우 취소에 실패하였습니다."),
 
+    //kakao
+    FAILED_TO_KAKAO_OAUTH(false, 3080, "카카오 유저 정보 조회에 실패하였습니다."),
+    FAILED_TO_KAKAO_EMAIL(false, 3081, "카카오계정(이메일) 제공을 동의해주세요."),
 
 
 
@@ -83,10 +87,12 @@ public enum BaseResponseStatus {
     MODIFY_FAIL_USERNAME(false,4014,"유저네임 수정 실패"),
 
     PASSWORD_ENCRYPTION_ERROR(false, 4011, "비밀번호 암호화에 실패하였습니다."),
-    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다.");
+    PASSWORD_DECRYPTION_ERROR(false, 4012, "비밀번호 복호화에 실패하였습니다."),
 
 
     // 5000 : 필요시 만들어서 쓰세요
+    MESSAGE_INVALID_PHONE_NUMBER(false, 5000, "휴대폰번호는 10~11자이어야 합니다.");
+
     // 6000 : 필요시 만들어서 쓰세요
 
 

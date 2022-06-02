@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 
+import com.example.demo.src.oauth.kakao.GetKakaoUserRes;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import lombok.extern.slf4j.Slf4j;
@@ -81,6 +82,18 @@ public class UserDao {
         String updateUserBasicInformationQuery = "update User set email = ?, name = ?, phoneNumber = ? where userIdx =? ";
         Object[]updateUserBasicInformationParams = new Object[]{patchUserBasicInformationReq.getEmail(), patchUserBasicInformationReq.getName(), patchUserBasicInformationReq.getPhoneNumber(), userIdx};
         this.jdbcTemplate.update(updateUserBasicInformationQuery, updateUserBasicInformationParams);
+    }
+
+    //해당 이메일을 갖는 유저조회(카카오 로그인할 때 이용)
+    public GetKakaoUserRes getUserByEmail(String email){
+        String getUserByEmailQuery = "select U.userIdx, U.email, U.password from User as U where email = ? AND status = 'ACTIVE'";
+        String getUserByEmailParams = email;
+        return this.jdbcTemplate.queryForObject(getUserByEmailQuery,
+                (rs, rowNum) -> new GetKakaoUserRes(
+                        rs.getLong("userIdx"),
+                        rs.getString("email"),
+                        rs.getString("password")),
+                getUserByEmailParams);
     }
 
 }
