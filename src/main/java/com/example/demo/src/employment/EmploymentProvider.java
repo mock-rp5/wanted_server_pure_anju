@@ -25,7 +25,7 @@ public class EmploymentProvider {
     }
 
     //채용공고 조회
-    public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, int years1, int years2) throws BaseException {
+    public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, Long years1, Long years2) throws BaseException {
         try {
             GetEmploymentRes getEmploymentRes = employmentDao.getEmployments(userIdx, country, sort, years1, years2);
             return getEmploymentRes;

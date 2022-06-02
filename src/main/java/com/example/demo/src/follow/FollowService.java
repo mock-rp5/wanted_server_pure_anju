@@ -39,6 +39,11 @@ public class FollowService {
     }
 
     public void cancelFollow(int companyIdx, Long userIdx) throws BaseException {
+        int status = followDao.getFollowCompany(companyIdx, userIdx);
+        if(status == 0){
+            throw new BaseException(PATCH_FOLLOW_NOT_EXISTS);
+        }
+
         try{
             int result = followDao.cancelFollow(companyIdx, userIdx);
 

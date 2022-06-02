@@ -66,10 +66,12 @@ public enum BaseResponseStatus {
     //Like
     POST_LIKE_EXISTS(false, 3060, "이미 좋아요 중입니다."),
     DELETION_FAIL_LIKE(false,3061, "좋아요 취소에 실패하였습니다."),
+    PATCH_LIKE_NOT_EXISTS(false, 3062, "좋아요 하고 있지 않습니다."),
 
     //follow
     POST_FOLLOW_EXISTS(false, 3070, "이미 팔로우 중입니다."),
     DELETION_FAIL_FOLLOW(false, 3071, "팔로우 취소에 실패하였습니다."),
+    PATCH_FOLLOW_NOT_EXISTS(false, 3072, "팔로우 하고 있지 않습니다."),
 
     //kakao
     FAILED_TO_KAKAO_OAUTH(false, 3080, "카카오 유저 정보 조회에 실패하였습니다."),

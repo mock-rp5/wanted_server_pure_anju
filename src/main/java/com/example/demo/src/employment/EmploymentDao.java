@@ -22,12 +22,12 @@ public class EmploymentDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, int years1, int years2) {
+    public GetEmploymentRes getEmployments(Long userIdx, String country, String sort, Long years1, Long years2) {
         String getCompanyQuery = "select C.companyIdx, C.logo, CI.imgUrl, C.companyName, E.countPosition from Company as C\n" +
                 "left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
                 "left join (select companyIdx, count(*) as countPosition from Employment group by companyIdx) E on E.companyIdx = C.companyIdx\n" +
 
-                "where CI.isThumbnail = true and C.isActivited = " + sort;
+                "where CI.isThumbnail = true and C.isActivited = true";
 
 
 
@@ -43,20 +43,22 @@ public class EmploymentDao {
                         rs.getString("imgUrl"),
                         rs.getString("companyName"),
                         rs.getInt("countPosition")));
-        String getEmploymentQuery = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmark,EM.title, CIC.companyName, CIC.responseRate, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
-                "from Employment as EM\n" +
-                "left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city, case when C.responseRate > 95\n" +
-                "        then '응답률 매우 높음'\n" +
-                "        when C.responseRate > 90\n" +
-                "        then '응답률 높음'\n" +
-                "        when C.responseRate < 50\n" +
-                "        then null\n" +
-                "           end as responseRate from Company as C\n" +
-                "left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
-                "where CI.isThumbnail = true and C.country = ?\n" +
-                "order by C.responseRate desc) as CIC on CIC.companyIdx = EM.companyIdx\n" +
-                "left join EmploymentBookmark EB on EM.employmentIdx = EB.employmentIdx\n" +
-                "where EM.years > " + years1 + " and EM.years < " + years2;
+        String getEmploymentQuery = "select EM.employmentIdx, CIC.imgUrl, exists(select EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmark,EM.title,\n" +
+                "                CIC.companyName,\n" +
+                "                case when CIC.responseRate > 95 then '응답률 매우 높음'\n" +
+                "                    when CIC.responseRate > 90\n" +
+                "                        then '응답률 높음'\n" +
+                "                        when CIC.responseRate < 50\n" +
+                "                            then null\n" +
+                "                            end as responseRate, CIC.city as city, CIC.country as country, EM.applicantReward + EM.recommenderReward as totalReward\n" +
+                "                from Employment as EM\n" +
+                "                left join (select C.companyIdx, CI.imgUrl, C.companyName, C.country, C.city, C.responseRate from Company as C\n" +
+                "                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                where CI.isThumbnail = true and C.country = ?\n" +
+                "                order by " + sort + ") as CIC on CIC.companyIdx = EM.companyIdx\n" +
+                "                left join EmploymentBookmark EB on EM.employmentIdx = EB.employmentIdx\n" +
+                "                where EM.years > " + years1 + " and EM.years < " + years2;
+
         String getEmploymentParams = country;
         List<Employment> employmentList = this.jdbcTemplate.query(getEmploymentQuery,
                 (rs1, rowNum1) -> new Employment(rs1.getInt("employmentIdx"),

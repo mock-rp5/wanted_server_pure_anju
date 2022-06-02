@@ -36,8 +36,22 @@ public class EmploymentController {
      */
     @ResponseBody
     @GetMapping("/employmentList")
-    public BaseResponse<GetEmploymentRes> getEmployments(@RequestParam("country") String country, @RequestParam("sort") String sort,
-                                                         @RequestParam("years1") int years1, @RequestParam("years2") int years2) {
+    public BaseResponse<GetEmploymentRes> getEmployments(@RequestParam(value = "country", required = false) String country,
+                                                         @RequestParam(value = "sort", required = false) String sort,
+                                                         @RequestParam(value = "years1", required = false) Long years1,
+                                                         @RequestParam(value = "years2", required = false) Long years2) {
+        if(country.equals("")){
+            country = "한국";
+        }
+        if(sort.equals("")){
+            sort = "C.responseRate";
+        }
+        if(years1 == null){
+            years1 = (long)0;
+        }
+        if(years2 == null){
+            years2 = (long)10;
+        }
 
         try{
             Long userIdx = jwtService.getUserIdx();
