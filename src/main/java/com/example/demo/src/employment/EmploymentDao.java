@@ -77,28 +77,28 @@ public class EmploymentDao {
 
     public GetEmploymentDetailRes getEmployDetails(Long userIdx, int employmentIdx){
         String getEmployDetailQuery = "select EE.employmentIdx, CI.imgUrl, EE.title, C.companyName, case when C.responseRate > 95\n" +
-                "        then '응답률 매우 높음'\n" +
-                "        when C.responseRate > 90\n" +
-                "        then '응답률 높음'\n" +
-                "        when C.responseRate < 50\n" +
-                "        then null\n" +
-                "           end as responseRate, C.city, C.country, EE.recommenderReward, EE.applicantReward,\n" +
-                "                                exists(select distinct EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmarked,\n" +
-                "                                exists(select A.employmentIdx where A.userIdx = " + userIdx + ") as isApplied,\n" +
-                "                                ELL.countLike,\n" +
-                "                                       EE.introduction, EE.primaryTask, EE.qualification,\n" +
-                "       EE.preferentialTreatment, EE.welfare, date_format(EE.deadLinedAt, '%Y.%m.%d') as deadLine, EE.workArea from Company as C\n" +
-                "left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
-                "right join\n" +
-                "(select E.employmentIdx, E.companyIdx, E.title, E.introduction, E.primaryTask, E.qualification, E.preferentialTreatment, E.welfare,\n" +
-                "        E.deadlinedAt, E.workArea, E.recommenderReward, E.applicantReward\n" +
-                "    from Employment as E\n" +
-                "where E.employmentIdx = " + employmentIdx + ") EE on EE.companyIdx = C.companyIdx\n" +
-                "left join EmploymentBookmark EB on EE.employmentIdx = EB.employmentIdx\n" +
-                "left join Apply A on A.employmentIdx = EE.employmentIdx\n" +
-                "left join (select ifnull(EL.employmentIdx, " + employmentIdx + ") as employmentIdx, ifnull(count(*), 0) as countLike from EmploymentLike as EL\n" +
-                "where EL.employmentIdx = " + employmentIdx + ") as ELL on ELL.employmentIdx = EE.employmentIdx\n" +
-                "where CI.isThumbnail = true";
+                "                       then '응답률 매우 높음'\n" +
+                "                        when C.responseRate > 90\n" +
+                "                        then '응답률 높음'\n" +
+                "                        when C.responseRate < 50\n" +
+                "                        then null\n" +
+                "                           end as responseRate, C.city, C.country, EE.recommenderReward, EE.applicantReward,\n" +
+                "                                                exists(select distinct EB.employmentIdx where EB.status = 'ACTIVE' and EB.userIdx = " + userIdx + ") as isBookmarked,\n" +
+                "                                                exists(select AA.employmentIdx) as isApplied,\n" +
+                "                                                ELL.countLike,\n" +
+                "                                                       EE.introduction, EE.primaryTask, EE.qualification,\n" +
+                "                       EE.preferentialTreatment, EE.welfare, date_format(EE.deadLinedAt, '%Y.%m.%d') as deadLine, EE.workArea from Company as C\n" +
+                "                left join CompanyImage CI on C.companyIdx = CI.companyIdx\n" +
+                "                right join\n" +
+                "                (select E.employmentIdx, E.companyIdx, E.title, E.introduction, E.primaryTask, E.qualification, E.preferentialTreatment, E.welfare,\n" +
+                "                        E.deadlinedAt, E.workArea, E.recommenderReward, E.applicantReward\n" +
+                "                    from Employment as E\n" +
+                "                where E.employmentIdx = " + employmentIdx + ") EE on EE.companyIdx = C.companyIdx\n" +
+                "                left join EmploymentBookmark EB on EE.employmentIdx = EB.employmentIdx\n" +
+                "                left join (select A.employmentIdx from Apply as A where A.userIdx = " + userIdx + ") AA on AA.employmentIdx = EE.employmentIdx\n" +
+                "                left join (select ifnull(EL.employmentIdx, " + employmentIdx + ") as employmentIdx, ifnull(count(*), 0) as countLike from EmploymentLike as EL\n" +
+                "                where EL.employmentIdx = " + employmentIdx + ") as ELL on ELL.employmentIdx = EE.employmentIdx\n" +
+                "                where CI.isThumbnail = true";
 
         String getCompanyTagQuery = "select CT.companyTagIdx, CT.name from CompanyTag as CT\n" +
                 "inner join Company C on CT.companyIdx = C.companyIdx\n" +
