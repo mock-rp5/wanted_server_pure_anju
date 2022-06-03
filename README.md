@@ -207,6 +207,28 @@
 3. DTO 클래스의 갯수 증가로 인한 지저분함
 - 문제: 이력서 작성의 경우 Post로 요청받아야 하는 값이 너무 많다보니 Dto 클래스 파일이 너무 많아졌고, 가독성이 줄어들고 뭔가 객체지향 적이지 못했다.
 - 해결: inner class를 사용하여 한 클래스 파일 내에서 전부 기입할 수 있게 해결하였다.
+  
+4. CORS ERROR
+- 문제: 클라이언트 측에서 API요청시 CORS 에러가 발생했다.
+- 해결: WebConfig.class 파일을 생성하고 아래 메서드를 Bean 등록 해줌으로써 해결했다.
+ ```java
+  
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+    private static final long MAX_AGE_SECOND = 3600;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(MAX_AGE_SECOND);
+    }
+
+}
+```
  
   
   
@@ -214,7 +236,7 @@
 ## 퓨어
 1. ec2서버에서 git pull 할 때 에러(2022-05-23)
 - 문제 : 새롭게 추가된 기능을 포함시키기 위해 원격 리포지토리(remote repository)에서 소스를 땡겨 올때 다음과 같은 에러가 발생했다.
-```
+```git
 error: Your local changes to the following files would be overwritten by merge:
          logs/app.log
 please commit your changes or stash them before you merge.
@@ -229,7 +251,7 @@ please commit your changes or stash them before you merge.
 3. 브랜치 생성 에러(2022-05-25)
 - 문제 : 로컬에서 브랜치를 생성하고 원격 리포지토리에 적용시키려 했지만 실패했다.
 - 해결 : 원격 리포지토리에서 브랜치를 먼저 생성한 후 로컬에서 
-```
+```git
 git clone -b {branch_name} --single-branch {저장소 URL}
 ```
 을 통해 해당 브랜치만 따온다.
@@ -240,7 +262,7 @@ git clone -b {branch_name} --single-branch {저장소 URL}
   
 5. postman에서 데이터베이스 연결 실패 에러(2022-05-27)
 - 문제 : FollowService단에서 해당 유저가 회사를 팔로우하고 있는지 status로 받아와서 0이아니면 이미 팔로우하고 있다고 처리하여 Exception으로 날려주고  0이라면 팔로우하는 비즈니스 로직을 다음과같이 구성했다.
-```
+```java
 public void createFollow(int companyIdx, Long userIdx) throws BaseException {
         int status = followDao.getFollowCompany(companyIdx, userIdx);
         System.out.println(status);
@@ -257,7 +279,7 @@ public void createFollow(int companyIdx, Long userIdx) throws BaseException {
 ```
 
 FollowDao에서의 쿼리문은 다음과 같다.
-```
+```java
 public int getFollowCompany(int companyIdx, Long userIdx){
         String GetFollowCompanyQuery = "select count(companyFollowIdx) from CompanyFollow where userIdx = ? and companyIdx = ? and status = 'ACTIVE'";
         Object[] GetFollowCompanyParams = new Object[]{userIdx, companyIdx};
@@ -266,7 +288,7 @@ public int getFollowCompany(int companyIdx, Long userIdx){
 ```
 
 하지만 실행해보면 실제 db상에서 팔로우하고 있음에도 불구하고 status가 0으로 출력되고 postman에서 다음과 같이 데이터베이스 연결에 실패하였다라고 출력됐다.
-```
+```java
 {
   "isSuccess" : "false",
   "code" : 4000,
