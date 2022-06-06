@@ -1,5 +1,4 @@
 /src/main/resources/application.yml
-*.properties
 /src/main/java/com/example/demo/config/secret/Secret.java
 /.gradle
 /build
