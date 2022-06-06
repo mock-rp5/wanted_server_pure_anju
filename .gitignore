@@ -1,6 +1,5 @@
-/src/main/resources/application.yml
-/src/main/java/com/example/demo/config/secret/Secret.java
-/.gradle
+
+.gradle
 /build
 /.idea
 .DS_Store
